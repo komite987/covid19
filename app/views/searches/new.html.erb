@@ -1,0 +1,26 @@
+<br>
+<h1>Enter Your Search Info</h1>
+<br> 
+<%= form_tag("/search", method: "post") do %>
+<div class="row">
+  <div class="form-group col-lg-8">
+    <%= label_tag(:country, "Country Name:") %>
+    <%= text_field_tag(:country, nil , class: 'form-control')  %>
+  </div>
+</div>
+<div class="row">
+  <div class="form-group col-lg-4">
+    <%= label_tag(:start_date, "Start Date:", class: 'col-form-label') %>
+    <input class="form-control" type="date" value="2020-01-22" min="2020-01-22" name="start_date" max="<%= DateTime.yesterday.strftime('%Y-%m-%d')%>">
+  </div>
+  <div class="form-group col-lg-4">
+    <%= label_tag(:end_date, "End Date:", class: 'col-form-label') %>
+    <input class="form-control" type="date" value="<%= DateTime.yesterday.strftime("%Y-%m-%d")%>" name="end_date" max="<%= DateTime.yesterday.strftime("%Y-%m-%d")%>">
+  </div>
+</div>
+<div class="row">
+  <div class="form-group col-lg-2">
+    <%= submit_tag("Search", class: 'btn btn-success') %>
+  </div>
+</div>
+<% end %>
