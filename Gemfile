@@ -28,6 +28,9 @@ gem 'jbuilder', '~> 2.5'
 gem 'rest-client', '~> 2.1'
 gem 'jquery-rails', '~> 4.4'
 gem 'bootstrap', '~> 4.5'
+gem "font-awesome-rails"
+
+
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password

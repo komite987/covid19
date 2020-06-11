@@ -1,10 +1,13 @@
 <br>
-<h1> <%= @json[0]['Country'] %> </h1>
-<i>From <%=  Date.parse(params['start_date']).strftime("%A %d/%m/%Y")%>
-                   To: <%=  Date.parse(params['end_date']).strftime("%A %d/%m/%Y")%></i>
-
-
 <div class="row">
+<h1 class=" col-md-8"> <%= @json[0]['Country'] %></h1>
+
+  <%= link_to 'New Search', search_path, class: 'col-md-3' %>
+</div>
+
+<br>
+
+ <div class="row">
   <div class= "col-lg-6">
     <div class="card border-danger mb-3 mr-3" >
       <h5 class="card-header"> All statistics</h5>
@@ -46,36 +49,57 @@
   </div>
 </div>
 
-<div class="row row-cols-1 row-cols-lg-4">
-
+<div class="row">
  <% removeColony(@json).each_with_index do |day, index| %>
- <% if index != 0 %>
- <div class="col mb-4">
-  <div class="flip-card">
-    <div class="flip-card-inner">
-      <div class="card-body flip-card-front">
-        <h5 class="card-title"><%= day['Date'].gsub("T00:00:00Z", "")%></h5>
-        <hr class="hr">
-        <p class="card-text">New Cases: <%= dayStatus(removeColony(@json),index,'Confirmed')%>
-        </p>
-        <p class="card-text">New Deaths: <%= dayStatus(removeColony(@json),index,'Deaths')%>
-        </p>
-        <p class="card-text">New Recovered: <%= dayStatus(removeColony(@json),index,'Recovered')%>
-        </p>
-      </div>
-      <div class="card-body flip-card-back">
-        <h5 class="card-title"><%= day['Date'].gsub("T00:00:00Z", "")%></h5>
-        <p class="card-text">Cases until now: <%=  day['Confirmed'] %> </p>
-        <p class="card-text">Deaths until now: <%=  day['Deaths'] %> </p>
-        <p class="card-text">Recovered until now: <%=  day['Recovered'] %></p>
-        <p class="card-text">Active until now: <%=  day['Active'] %> </p>
+ <% if index != 0 && day['Confirmed'] != 0 %>
+ <div class="col-md-4 col-sm-6 col-lg-3 text-center">
+   <div class="card-container manual-flip">
+    <div class="card">
+      <div class="front">
+          <div class="header">
+            <h4 class="card-title"><%= day['Date'].gsub("T00:00:00Z", "")%></h4>
 
-      </div>
+          </div>
+        <div class="content">
+          <div class="main">
+            <p class="card-text">New Cases: <%= dayStatus(removeColony(@json),index,'Confirmed')%>
+            </p>
+            <p class="card-text">New Deaths: <%= dayStatus(removeColony(@json),index,'Deaths')%>
+            </p>
+            <p class="card-text">New Recovered: <%= dayStatus(removeColony(@json),index,'Recovered')%>
+            </p>          </div>
+            <div class="footer">
+              <button class="btn btn-simple" onclick="rotateCard(this)">
+                <i class="fa fa-mail-forward"></i> Stats until this day
+              </button>
+            </div>
+          </div>
+        </div> <!-- end front panel -->
+        <div class="back">
+          <div class="header">
+            <h4 class="card-title"><%= day['Date'].gsub("T00:00:00Z", "")%></h4>
 
-    </div>
-  </div>
-</div>
+          </div>
+          <div class="content">
+            <div class="main">
+        <p class="card-text">Total Cases: <%=  day['Confirmed'] %> </p>
+        <p class="card-text">Deaths: <%=  day['Deaths'] %> </p>
+        <p class="card-text">Recovered: <%=  day['Recovered'] %></p>
+        <p class="card-text">Active: <%=  day['Active'] %> </p>
+
+            </div>
+          </div>
+          <div class="footer">
+            <button class="btn btn-simple"  onclick="rotateCard(this)">
+              <i class="fa fa-reply"></i> Back
+            </button>
+          </div>
+        </div> <!-- end back panel -->
+      </div> <!-- end card -->
+    </div> <!-- end card-container -->
+  </div> <!-- end col sm 3 -->
 <% end %>
 <% end %>
 
 </div>
+

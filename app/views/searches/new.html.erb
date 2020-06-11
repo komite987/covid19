@@ -5,8 +5,14 @@
 <div class="row">
   <div class="form-group col-lg-8">
     <%= label_tag(:country, "Country Name:") %>
-    <%= text_field_tag(:country, nil , class: 'form-control')  %>
-  </div>
+    <%= text_field_tag(:country, nil , class: 'form-control' , list: "mylist")  %>
+    <datalist id="mylist">
+      <% countries_list.each do |country| %>
+      <option><%= country %></option>
+      <% end %>
+    </datalist>
+
+  </div> 
 </div>
 <div class="row">
   <div class="form-group col-lg-4">
@@ -24,3 +30,9 @@
   </div>
 </div>
 <% end %>
+
+<div class="row">
+  <div class="form-group col-lg-2">
+    <%= link_to "Home page", root_path, class: 'btn btn-info' %>
+  </div>
+

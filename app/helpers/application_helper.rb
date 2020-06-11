@@ -18,35 +18,52 @@ module ApplicationHelper
     return true if found.length == 0 
   end
 
-    def china(y=[], start_date, end_date)
-      newArray = []
-      start_date = Date.parse(params['start_date']).yesterday
-      end_date =  Date.parse(params['end_date'])
-      newElement = {}
-      for date in (start_date..end_date) do
-       z = y.select { |a| a['Date'].include? date.strftime('%Y-%m-%d') }
-       dayCon = dayDeth = dayRec = dayAct = 0
-       z.each do |total| 
-         dayCon += total['Confirmed'] 
-         dayDeth += total['Deaths'] 
-         dayRec += total['Recovered'] 
-         dayAct += total['Active']
-       end
-        newElement = {"Country" => "China",
-        "CountryCode"=> "CN",
-        "Province"=> "",
-        "City"=> "",
-        "CityCode"=> "",
-        "Confirmed"=> dayCon,
-        "Deaths"=> dayDeth,
-        "Recovered"=> dayRec,
-        "Active"=> dayAct,
-        "Date"=> "#{date}T00:00:00Z" }
-        newArray << newElement
-      end
-        newArray 
+  def china(y=[], start_date, end_date)
+    newArray = []
+    start_date = Date.parse(params['start_date']).yesterday
+    end_date =  Date.parse(params['end_date'])
+    newElement = {}
+    for date in (start_date..end_date) do
+     z = y.select { |a| a['Date'].include? date.strftime('%Y-%m-%d') }
+     dayCon = dayDeth = dayRec = dayAct = 0
+     z.each do |total| 
+       dayCon += total['Confirmed'] 
+       dayDeth += total['Deaths'] 
+       dayRec += total['Recovered'] 
+       dayAct += total['Active']
+     end
+     newElement = {"Country" => "China",
+      "CountryCode"=> "CN",
+      "Province"=> "",
+      "City"=> "",
+      "CityCode"=> "",
+      "Confirmed"=> dayCon,
+      "Deaths"=> dayDeth,
+      "Recovered"=> dayRec,
+      "Active"=> dayAct,
+      "Date"=> "#{date}T00:00:00Z" }
+      newArray << newElement
     end
+    newArray 
+  end
 
+  def get_data(country, start_date,end_date)
+    if country == "china"
+      china((JSON.parse RestClient.get "https://api.covid19api.com/country/#{country}?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"), start_date, end_date)
+    else
+      JSON.parse RestClient.get "https://api.covid19api.com/country/#{country}?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"
+    end
+  end
 
+  def countries_list
+    countriesArray = []
+    list = JSON.parse RestClient.get "https://api.covid19api.com/summary"
 
+    list["Countries"].each do |item|
+      country = item['Slug']
+
+      countriesArray << country.gsub("-", " ").capitalize
+    end
+    countriesArray.sort_by { |country| country }
+  end
 end

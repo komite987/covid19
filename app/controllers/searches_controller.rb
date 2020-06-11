@@ -1,5 +1,9 @@
 class SearchesController < ApplicationController
   include ApplicationHelper
+
+  def home
+    
+  end
   def new
   end
 
@@ -10,15 +14,9 @@ class SearchesController < ApplicationController
 
     if country == "" || ( Date.parse(end_date) < Date.parse(start_date) ) || check_country(country)
       render 'new'
-
-    elsif country == "china"
-      json =  JSON.parse RestClient.get "https://api.covid19api.com/country/#{country}?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"
-      @json = china(json, start_date ,end_date)
-
-      @all_data = JSON.parse RestClient.get "https://api.covid19api.com/total/country/#{country}"
-
     else
-      @json = JSON.parse RestClient.get "https://api.covid19api.com/country/#{country}?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z" 
+      @json = get_data(country, start_date,end_date)
+      
       @all_data = JSON.parse RestClient.get "https://api.covid19api.com/total/country/#{country}"
     end
   end
