@@ -1,0 +1,126 @@
+<div class="row">
+ <div class="col-md-6">
+    <figure class="highcharts-figure">
+        <div id="container">
+
+        </div>
+    </figure>
+
+</div> 
+
+<div class="col-md-6">
+    <figure class="highcharts-figure">
+        <div id="container2">
+
+        </div>
+    </figure>
+
+</div> 
+
+</div>
+
+<script>
+    Highcharts.chart('container', {
+
+        title: {
+            text: 'Total statistics'
+        },
+
+        xAxis: {
+            type: 'datetime'
+        },
+
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle'
+        },
+
+        plotOptions: {
+            series: {
+                pointStart: Date.UTC(<%= Date.parse(params['start_date']).prev_month.strftime('%Y,%m,%d') %>),
+                pointInterval: 24 * 3600 * 1000 // one day
+            }
+        },
+
+        series: [{
+            name: 'Confirmed',
+            data: <%= chartDataTotal(removeColony(@json), 'Confirmed') %>
+        }, {
+            name: 'Deaths',
+            data: <%= chartDataTotal(removeColony(@json), 'Deaths') %>
+        }, {
+            name: 'Recovered',
+            data: <%= chartDataTotal(removeColony(@json), 'Recovered') %>
+        }],
+
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'bottom'
+                    }
+                }
+            }]
+        }
+
+    });
+
+    Highcharts.chart('container2', {
+
+        title: {
+            text: 'Daily statistics'
+        },
+
+        xAxis: {
+            type: 'datetime'
+        },
+
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle'
+        },
+
+        plotOptions: {
+            series: {
+                pointStart: Date.UTC(<%= Date.parse(params['start_date']).prev_month.strftime('%Y,%m,%d') %>),
+                pointInterval: 24 * 3600 * 1000 // one day
+            }
+        },
+
+
+        series: [{
+            name: 'Confirmed',
+            data: <%= chartDataDaily(removeColony(@json), 'Confirmed') %>
+        }, {
+            name: 'Deaths',
+            data: <%= chartDataDaily(removeColony(@json), 'Deaths') %>
+        }, {
+            name: 'Recovered',
+            data: <%= chartDataDaily(removeColony(@json), 'Recovered') %>
+        }],
+
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'bottom'
+                    }
+                }
+            }]
+        }
+
+    });
+
+</script>

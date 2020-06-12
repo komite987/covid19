@@ -66,4 +66,30 @@ module ApplicationHelper
     end
     countriesArray.sort_by { |country| country }
   end
+
+
+  def chartDataTotal(s=[], status)
+    dayArray = []
+    s.each_with_index do |day, index|
+      if index != 0 && day['Confirmed'] != 0
+        # dayData = dayStatus(s,index,status)
+        dayData = day[status]
+
+        dayArray << dayData
+      end
+    end
+    dayArray
+  end 
+
+  def chartDataDaily(s=[], status)
+    dayArray = []
+    s.each_with_index do |day, index|
+      if index != 0 && day['Confirmed'] != 0
+        dayData = dayStatus(s,index,status)
+        dayArray << dayData
+      end
+    end
+    dayArray
+  end
+
 end
