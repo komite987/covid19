@@ -37,3 +37,4 @@ $( document ).on('turbolinks:load', function() {
   $("#container1").twentytwenty();
 });
 
+

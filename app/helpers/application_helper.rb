@@ -1,5 +1,9 @@
 module ApplicationHelper
 
+  def parse(url)
+    JSON.parse RestClient.get(url)
+  end
+
   def removeColony(v=[])
     v.select { |a| a['Province'] == '' && a['City'] == ''}
   end
@@ -13,12 +17,12 @@ module ApplicationHelper
   end
 
   def check_country(name)
-    countries = JSON.parse RestClient.get "https://api.covid19api.com/countries"
+    countries = JSON.parse RestClient.get(Rails.configuration.api[:country_check])
     found = countries.select { |a| a['Slug'] == name } 
     return true if found.length == 0 
   end
 
-  def china(y=[], start_date, end_date)
+  def china(y=[])
     newArray = []
     start_date = Date.parse(params['start_date']).yesterday
     end_date =  Date.parse(params['end_date'])
@@ -47,17 +51,20 @@ module ApplicationHelper
     newArray 
   end
 
-  def get_data(country, start_date,end_date)
+  def getData(country, start_date,end_date)
+    @countryAllstats = parse("#{Rails.configuration.api[:country_all_data]}#{country}")
+
+
     if country == "china"
-      china((JSON.parse RestClient.get "https://api.covid19api.com/country/#{country}?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"), start_date, end_date)
+      china((parse "https://api.covid19api.com/country/china?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"))
     else
-      JSON.parse RestClient.get "https://api.covid19api.com/country/#{country}?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"
+      parse "https://api.covid19api.com/country/#{country}?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"
     end
   end
 
   def countries_list
     countriesArray = []
-    list = JSON.parse RestClient.get "https://api.covid19api.com/summary"
+    list = parse(Rails.configuration.api[:country_list])
 
     list["Countries"].each do |item|
       country = item['Slug']
@@ -72,7 +79,6 @@ module ApplicationHelper
     dayArray = []
     s.each_with_index do |day, index|
       if index != 0 && day['Confirmed'] != 0
-        # dayData = dayStatus(s,index,status)
         dayData = day[status]
 
         dayArray << dayData
@@ -92,4 +98,22 @@ module ApplicationHelper
     dayArray
   end
 
+    def chartDataDate(s=[])
+      dayRange = []
+    s.each_with_index do |day, index|
+      if index != 0 && day['Confirmed'] != 0
+        dayDate = day['Date'].gsub("T00:00:00Z", "")
+        dayRange << dayDate
+      end
+    end
+    Date.parse(dayRange.first).prev_month.strftime('%Y,%m,%d') if dayRange.length > 0
+
+  end 
+
+ 
+
 end
+
+
+    # currencyCode = Restcountry::Country.find_by_name(params['country']).currencies[0]['code'] if Restcountry::Country.find_by_name(params['country'])
+    # @currencyExchange = JSON.parse RestClient.get "https://api.exchangeratesapi.io/history?start_at=#{params['start_date']}&end_at=#{end_date}&symbols=#{currencyCode}&base=USD"

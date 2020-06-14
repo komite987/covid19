@@ -1,28 +1,27 @@
 <br>
 <div class="row">
-<h1 class=" col-md-8"> <%= @json[0]['Country'] %></h1>
+  <h1 class=" col-md-8"> <%= @response[0]['Country'] %></h1>
 
   <%= link_to 'New Search', search_path, class: 'col-md-3' %>
 </div>
-
 <br>
 
- <div class="row">
+<div class="row">
   <div class= "col-lg-6">
     <div class="card border-danger mb-3 mr-3" >
       <h5 class="card-header"> All statistics</h5>
       <div class="card-body text-danger row">
         <p class="card-text col-sm-6">
-          Total Cases: <%= @all_data.last['Confirmed'] %>
+          Total Cases: <%= @countryAllstats.last['Confirmed'] %>
         </p>
         <p class="card-text col-sm-6">
-          Deaths: <%= @all_data.last['Deaths'] %>
+          Deaths: <%= @countryAllstats.last['Deaths'] %>
         </p>
         <p class="card-text col-sm-6">
-          Recovered: <%= @all_data.last['Recovered'] %>
+          Recovered: <%= @countryAllstats.last['Recovered'] %>
         </p>
         <p class="card-text col-sm-6">
-          Active: <%= @all_data.last['Active'] %>
+          Active: <%= @countryAllstats.last['Active'] %>
         </p>
       </div>
     </div>
@@ -33,13 +32,13 @@
       <h5 class="card-header">statistics in this period</h5>
       <div class="card-body text-danger row">
         <p class="card-text col-sm-6">
-          New cases: <%= doCalc(removeColony(@json),'Confirmed') %>
+          New cases: <%= doCalc(removeColony(@response),'Confirmed') %>
         </p>
         <p class="card-text col-sm-6">
-          Deaths: <%= doCalc(removeColony(@json),'Deaths') %>
+          Deaths: <%= doCalc(removeColony(@response),'Deaths') %>
         </p>
         <p class="card-text col-sm-6">
-          Recovered: <%= doCalc(removeColony(@json),'Recovered') %>
+          Recovered: <%= doCalc(removeColony(@response),'Recovered') %>
         </p>
         <p class="card-text col-sm-6">
         </p>
@@ -48,28 +47,50 @@
     </div>
   </div>
 </div>
-<div>
-  <%= render 'chart'%>
+
+<% if (@response[0]['Confirmed'] && @response.last['Confirmed']) > 0 %>
+<div class="row">
+   <div class="col-md-6">
+    <figure class="highcharts-figure">
+        <div id="container">
+
+        </div>
+    </figure>
+    </div> 
+    <div class="col-md-6">
+        <figure class="highcharts-figure">
+            <div id="container2">
+            </div>
+        </figure>
+    </div> 
+
 </div>
+  <%= render 'chart'%>
+<% else %>
+<div class="row">
+  <h3 class="container"><strong> There is no Cases in this period </strong></h3>
+  </div>
+<% end %>
+
 
 <div class="row">
- <% removeColony(@json).each_with_index do |day, index| %>
- <% if index != 0 && day['Confirmed'] != 0 %>
- <div class="col-md-4 col-sm-6 col-lg-3 text-center">
+  <% removeColony(@response).each_with_index do |day, index| %>
+  <% if index != 0 && day['Confirmed'] != 0 %>
+  <div class="col-md-4 col-sm-6 col-lg-3 text-center">
    <div class="card-container manual-flip">
     <div class="card">
       <div class="front">
-          <div class="header">
-            <h4 class="card-title"><%= day['Date'].gsub("T00:00:00Z", "")%></h4>
+        <div class="header">
+          <h4 class="card-title"><%= day['Date'].gsub("T00:00:00Z", "")%></h4>
 
-          </div>
+        </div>
         <div class="content">
           <div class="main">
-            <p class="card-text">New Cases: <%= dayStatus(removeColony(@json),index,'Confirmed')%>
+            <p class="card-text">New Cases: <%= dayStatus(removeColony(@response),index,'Confirmed')%>
             </p>
-            <p class="card-text">New Deaths: <%= dayStatus(removeColony(@json),index,'Deaths')%>
+            <p class="card-text">New Deaths: <%= dayStatus(removeColony(@response),index,'Deaths')%>
             </p>
-            <p class="card-text">New Recovered: <%= dayStatus(removeColony(@json),index,'Recovered')%>
+            <p class="card-text">New Recovered: <%= dayStatus(removeColony(@response),index,'Recovered')%>
             </p>          </div>
             <div class="footer">
               <button class="btn btn-simple" onclick="rotateCard(this)">
@@ -85,10 +106,10 @@
           </div>
           <div class="content">
             <div class="main">
-        <p class="card-text">Total Cases: <%=  day['Confirmed'] %> </p>
-        <p class="card-text">Deaths: <%=  day['Deaths'] %> </p>
-        <p class="card-text">Recovered: <%=  day['Recovered'] %></p>
-        <p class="card-text">Active: <%=  day['Active'] %> </p>
+              <p class="card-text">Total Cases: <%=  day['Confirmed'] %> </p>
+              <p class="card-text">Deaths: <%=  day['Deaths'] %> </p>
+              <p class="card-text">Recovered: <%=  day['Recovered'] %></p>
+              <p class="card-text">Active: <%=  day['Active'] %> </p>
 
             </div>
           </div>
@@ -101,9 +122,8 @@
       </div> <!-- end card -->
     </div> <!-- end card-container -->
   </div> <!-- end col sm 3 -->
-<% end %>
-<% end %>
-
+  <% end %>
+  <% end %>
 </div>
 
 

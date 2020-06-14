@@ -29,6 +29,7 @@ gem 'rest-client', '~> 2.1'
 gem 'jquery-rails', '~> 4.4'
 gem 'bootstrap', '~> 4.5'
 gem "font-awesome-rails"
+gem 'restcountry'
 
 
 # Use Redis adapter to run Action Cable in production
