@@ -3,6 +3,9 @@
   <h1 class=" col-md-8"> <%= @response[0]['Country'] %></h1>
 
   <%= link_to 'New Search', search_path, class: 'col-md-3' %>
+    <h6><strong> Data and Charts begin from the first case recorded (all other data will be deprecated)
+  </strong></h6>
+
 </div>
 <br>
 
@@ -32,13 +35,13 @@
       <h5 class="card-header">statistics in this period</h5>
       <div class="card-body text-danger row">
         <p class="card-text col-sm-6">
-          New cases: <%= doCalc(removeColony(@response),'Confirmed') %>
+          New cases: <%= periodStatus(removeColony(@response),'Confirmed') %>
         </p>
         <p class="card-text col-sm-6">
-          Deaths: <%= doCalc(removeColony(@response),'Deaths') %>
+          Deaths: <%= periodStatus(removeColony(@response),'Deaths') %>
         </p>
         <p class="card-text col-sm-6">
-          Recovered: <%= doCalc(removeColony(@response),'Recovered') %>
+          Recovered: <%= periodStatus(removeColony(@response),'Recovered') %>
         </p>
         <p class="card-text col-sm-6">
         </p>

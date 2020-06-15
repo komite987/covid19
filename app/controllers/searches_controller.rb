@@ -14,6 +14,7 @@ class SearchesController < ApplicationController
 
 
     if country == "" || ( Date.parse(end_date) < Date.parse(start_date) ) || check_country(country)
+      flash.now[:error] = "You Entered invalid info"
       render 'new'
     else
       @response = getData(country, start_date,end_date)

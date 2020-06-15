@@ -52,11 +52,10 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  config.api = {
-    country_list: "https://api.covid19api.com/summary",
-    country_check:"https://api.covid19api.com/countries",
-    country_all_data: "https://api.covid19api.com/total/country/"
-    }
+    config.country_list = "https://api.covid19api.com/summary"
+    config.country_check ="https://api.covid19api.com/countries"
+    config.country_all_data = "https://api.covid19api.com/total/country/"
+    
 
    
 

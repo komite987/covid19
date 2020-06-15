@@ -8,7 +8,7 @@ module ApplicationHelper
     v.select { |a| a['Province'] == '' && a['City'] == ''}
   end
 
-  def doCalc(s=[],status)
+  def periodStatus(s=[],status)
     s.last[status] - s.first[status] 
   end
 
@@ -17,12 +17,12 @@ module ApplicationHelper
   end
 
   def check_country(name)
-    countries = JSON.parse RestClient.get(Rails.configuration.api[:country_check])
+    countries = parse(Rails.configuration.country_check)
     found = countries.select { |a| a['Slug'] == name } 
     return true if found.length == 0 
   end
 
-  def china(y=[])
+  def chinaStatus(y=[])
     newArray = []
     start_date = Date.parse(params['start_date']).yesterday
     end_date =  Date.parse(params['end_date'])
@@ -52,11 +52,11 @@ module ApplicationHelper
   end
 
   def getData(country, start_date,end_date)
-    @countryAllstats = parse("#{Rails.configuration.api[:country_all_data]}#{country}")
+    @countryAllstats = parse("#{Rails.configuration.country_all_data}#{country}")
 
 
     if country == "china"
-      china((parse "https://api.covid19api.com/country/china?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"))
+      chinaStatus((parse "https://api.covid19api.com/country/china?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"))
     else
       parse "https://api.covid19api.com/country/#{country}?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"
     end
@@ -64,7 +64,7 @@ module ApplicationHelper
 
   def countries_list
     countriesArray = []
-    list = parse(Rails.configuration.api[:country_list])
+    list = parse(Rails.configuration.country_list)
 
     list["Countries"].each do |item|
       country = item['Slug']
@@ -98,8 +98,8 @@ module ApplicationHelper
     dayArray
   end
 
-    def chartDataDate(s=[])
-      dayRange = []
+  def chartDataDate(s=[])
+    dayRange = []
     s.each_with_index do |day, index|
       if index != 0 && day['Confirmed'] != 0
         dayDate = day['Date'].gsub("T00:00:00Z", "")
@@ -110,7 +110,21 @@ module ApplicationHelper
 
   end 
 
- 
+  def bootstrap_class_for flash_type
+    { success: "alert-success", error: "alert-danger", alert: "alert-warning", notice: "alert-info" }.stringify_keys[flash_type.to_s] || flash_type.to_s
+  end
+
+  def flash_messages(opts = {})
+    flash.each do |msg_type, message|
+      concat(content_tag(:div, message, class: "alert #{bootstrap_class_for(msg_type)}", role: "alert") do 
+        concat content_tag(:button, 'x', class: "close", data: { dismiss: 'alert' })
+        concat message 
+      end)
+    end
+    nil
+  end
+
+
 
 end
 
