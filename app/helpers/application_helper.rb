@@ -16,7 +16,7 @@ module ApplicationHelper
     s[index][status] - s[index-1][status]
   end
 
-  def check_country(name)
+  def unfoundCountry(name)
     countries = parse(Rails.configuration.country_check)
     found = countries.select { |a| a['Slug'] == name } 
     return true if found.length == 0 
@@ -123,6 +123,15 @@ module ApplicationHelper
     end
     nil
   end
+
+  def valid_date?(date)
+    date_format = '%Y-%m-%d'
+    DateTime.strptime(date, date_format)
+    true
+  rescue ArgumentError
+    false
+  end
+
 
 
 
