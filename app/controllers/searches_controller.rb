@@ -13,7 +13,7 @@ class SearchesController < ApplicationController
 
     if params['country'].blank?
       e = Errors::BadRequest.new("Country can't be blank", source: {file:__FILE__, method: __method__, line: __LINE__ })
-      Rails.logger.error e.message.as_json
+      Rails.logger.error e.message
       render json: e.message and return 
 
     elsif unfoundCountry(params['country'].gsub(" ", "-").downcase)
