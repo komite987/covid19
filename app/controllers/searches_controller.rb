@@ -1,3 +1,4 @@
+require 'Errors'
 class SearchesController < ApplicationController
   include ApplicationHelper
 
@@ -11,32 +12,37 @@ class SearchesController < ApplicationController
 
 
     if params['country'].blank?
-      flash.now[:error] = "Country name can't be blank"
-      render 'new'
+      e = Errors::BadRequest.new("Country can't be blank", source: {file:__FILE__, method: __method__, line: __LINE__ })
+      Rails.logger.error e.message.as_json
+      render json: e.message and return 
+
+    elsif unfoundCountry(params['country'].downcase)
+      e = Errors::PageNotFound.new("No country found", source: {file:__FILE__, method: __method__, line: __LINE__ })
+      render json: e.message and return 
+
 
 
     elsif !valid_date?(params['start_date']) 
-      flash.now[:error] = "Start date is invalid"
-      render 'new'
+      e = Errors::BadRequest.new("Start date incorrect", source: {file:__FILE__, method: __method__, line: __LINE__ })
+      render json: e.message and return 
 
     elsif !valid_date?(params['end_date'])
-      flash.now[:error] = "End date is invalid"
-      render 'new'
+      e = Errors::BadRequest.new("End date incorrect", source: {file:__FILE__, method: __method__, line: __LINE__ })
+      render json: e.message and return 
 
     elsif Date.parse(params['end_date']) < Date.parse(params['start_date']) 
-        flash.now[:error] = "Start date is bigger than end date"
+      e = Errors::BadRequest.new("End Date must be bigger than start date", source: {file:__FILE__, method: __method__, line: __LINE__ })
+      render json: e.message and return 
 
-    elsif unfoundCountry(params['country'].downcase)
-      flash.now[:error] = "There is no country found"
-      render 'new'
 
 
     else
       country = params['country'].gsub(" ", "-").downcase
+
       start_date = Date.parse(params['start_date']).yesterday.to_s
       end_date =  Date.parse(params['end_date']).to_s
 
-      @response = getData(country, start_date,end_date)
+      @response = getData(country, start_date, end_date)
     end
   end
 
