@@ -16,7 +16,7 @@ class SearchesController < ApplicationController
       Rails.logger.error e.message.as_json
       render json: e.message and return 
 
-    elsif unfoundCountry(params['country'].downcase)
+    elsif unfoundCountry(params['country'].gsub(" ", "-").downcase)
       e = Errors::PageNotFound.new("No country found", source: {file:__FILE__, method: __method__, line: __LINE__ })
       render json: e.message and return 
 
