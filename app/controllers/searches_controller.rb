@@ -1,10 +1,8 @@
-require 'Errors'
 class SearchesController < ApplicationController
-  include ApplicationHelper
 
   def home
-
   end
+
   def new
   end
 
