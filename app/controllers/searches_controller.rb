@@ -31,7 +31,7 @@ class SearchesController < ApplicationController
       start_date = Date.parse(params['start_date']).yesterday.to_s
     end 
 
-    if params['end_date'].blank?
+    if params['end_date'].blank? 
       end_date =  DateTime.yesterday.strftime("%Y-%m-%d")
     elsif !params['end_date'].blank? && !valid_date?(params['end_date'])
       e = Errors::BadRequest.new("End Date invalid")
