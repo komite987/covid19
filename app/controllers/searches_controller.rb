@@ -8,39 +8,45 @@ class SearchesController < ApplicationController
 
   def show
 
-
     if params['country'].blank?
-      e = Errors::BadRequest.new("Country can't be blank", source: {file:__FILE__, method: __method__, line: __LINE__ })
+      e = Errors::BadRequest.new("Country can't be blank")
       Rails.logger.error e.message
-      render json: e.message and return 
-
+      render json: ErrorSerializer.new(e), status: e.status and return 
     elsif unfoundCountry(params['country'].gsub(" ", "-").downcase)
-      e = Errors::PageNotFound.new("No country found", source: {file:__FILE__, method: __method__, line: __LINE__ })
-      render json: e.message and return 
-
-
-
-    elsif !valid_date?(params['start_date']) 
-      e = Errors::BadRequest.new("Start date incorrect", source: {file:__FILE__, method: __method__, line: __LINE__ })
-      render json: e.message and return 
-
-    elsif !valid_date?(params['end_date'])
-      e = Errors::BadRequest.new("End date incorrect", source: {file:__FILE__, method: __method__, line: __LINE__ })
-      render json: e.message and return 
-
-    elsif Date.parse(params['end_date']) < Date.parse(params['start_date']) 
-      e = Errors::BadRequest.new("End Date must be bigger than start date", source: {file:__FILE__, method: __method__, line: __LINE__ })
-      render json: e.message and return 
-
-
-
+      e = Errors::NotFound.new("Country not found")
+      Rails.logger.error e.message
+      render json: ErrorSerializer.new(e), status: e.status and return 
     else
       country = params['country'].gsub(" ", "-").downcase
+    end
 
+
+    if params['start_date'].blank?
+      start_date = "2020-01-22"
+    elsif !params['start_date'].blank? && !valid_date?(params['start_date']) 
+      e = Errors::BadRequest.new("Start Date invalid")
+      Rails.logger.error e.message
+      render json: ErrorSerializer.new(e), status: e.status and return
+    else
       start_date = Date.parse(params['start_date']).yesterday.to_s
-      end_date =  Date.parse(params['end_date']).to_s
+    end 
 
-      @response = getData(country, start_date, end_date)
+    if params['end_date'].blank?
+      end_date =  DateTime.yesterday.strftime("%Y-%m-%d")
+    elsif !params['end_date'].blank? && !valid_date?(params['end_date'])
+      e = Errors::BadRequest.new("End Date invalid")
+      Rails.logger.error e.message
+      render json: ErrorSerializer.new(e), status: e.status and return
+    else
+     end_date =  Date.parse(params['end_date']).to_s
+    end
+
+    if Date.parse(end_date) < Date.parse(start_date) 
+      e = Errors::BadRequest.new("Start date is newer than end date")
+      Rails.logger.error e.message
+      render json: ErrorSerializer.new(e), status: e.status and return 
+    else
+     @response = getData(country, start_date, end_date)
     end
   end
 
