@@ -22,12 +22,12 @@ module ApplicationHelper
     return true if found.length == 0 
   end
 
-  def chinaStatus(y=[])
+  def irrigularStatus(country,y=[],start_date,end_date)
     newArray = []
-    start_date = Date.parse(params['start_date']).yesterday
-    end_date =  Date.parse(params['end_date'])
+    startDate = Date.parse(start_date)
+    endDate =  Date.parse(end_date)
     newElement = {}
-    for date in (start_date..end_date) do
+    for date in (startDate..endDate) do
      z = y.select { |a| a['Date'].include? date.strftime('%Y-%m-%d') }
      dayCon = dayDeth = dayRec = dayAct = 0
      z.each do |total| 
@@ -36,8 +36,8 @@ module ApplicationHelper
        dayRec += total['Recovered'] 
        dayAct += total['Active']
      end
-     newElement = {"Country" => "China",
-      "CountryCode"=> "CN",
+     newElement = {"Country" => country,
+      "CountryCode"=> "",
       "Province"=> "",
       "City"=> "",
       "CityCode"=> "",
@@ -55,23 +55,27 @@ module ApplicationHelper
     @countryAllstats = parse("#{Rails.configuration.country_all_data}#{country}")
 
 
-    if country == "china"
-      chinaStatus((parse "https://api.covid19api.com/country/china?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"))
+    if country == "china" || "australia"
+      irrigularStatus(country, (parse "https://api.covid19api.com/country/#{country}?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"),start_date,end_date)
     else
       parse "https://api.covid19api.com/country/#{country}?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"
     end
   end
 
   def countries_list
-    countriesArray = []
-    list = parse(Rails.configuration.country_list)
+    begin
+      countriesArray = []
+      list = parse(Rails.configuration.country_list)
 
-    list["Countries"].each do |item|
-      country = item['Slug']
+      list["Countries"].each do |item|
+        country = item['Slug']
 
-      countriesArray << country.gsub("-", " ").capitalize
+        countriesArray << country.gsub("-", " ").capitalize
+      end
+      countriesArray.sort_by { |country| country }
+    rescue
+      {}
     end
-    countriesArray.sort_by { |country| country }
   end
 
 

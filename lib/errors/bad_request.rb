@@ -3,7 +3,7 @@ module Errors
     def initialize(detail)
       super(
         title: "Bad Request",
-        status: 403,
+        status: 400,
         detail: detail
       )
     end
