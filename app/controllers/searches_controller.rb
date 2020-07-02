@@ -10,10 +10,12 @@ class SearchesController < ApplicationController
 
     if params['country'].blank?
       e = Errors::BadRequest.new("Country can't be blank")
+      Rails.logger.error e.detail
       ErrorSerializer.new(e)
       flash.now[:error] = "#{e.detail}"
       render 'new' , status: e.status and return 
     elsif unfoundCountry(params['country'].gsub(" ", "-").downcase)
+      # Rails.logger.error e.detail
       e = Errors::NotFound.new("Country not found")
       ErrorSerializer.new(e)
       flash.now[:error] = "#{e.detail}"
@@ -24,8 +26,10 @@ class SearchesController < ApplicationController
 
 
     if params['start_date'].blank?
+      Rails.logger.warn "Start at 22-1-2020 if params is blank"
       start_date = "2020-01-22"
-    elsif !params['start_date'].blank? && !valid_date?(params['start_date']) 
+    elsif !params['start_date'].blank? && !valid_date?(params['start_date'])
+      Rails.logger.error e.detail
       e = Errors::BadRequest.new("Start Date invalid")
       ErrorSerializer.new(e)
       flash.now[:error] = "#{e.detail}"
@@ -35,24 +39,27 @@ class SearchesController < ApplicationController
     end 
 
     if params['end_date'].blank? 
+      Rails.logger.warn "End at yesterday if params is blank"
       end_date =  DateTime.yesterday.strftime("%Y-%m-%d")
     elsif !params['end_date'].blank? && !valid_date?(params['end_date'])
+      Rails.logger.error e.detail
       e = Errors::BadRequest.new("End Date invalid")
       ErrorSerializer.new(e)
       flash.now[:error] = "#{e.detail}"
       render 'new' , status: e.status and return 
     else
      end_date =  Date.parse(params['end_date']).to_s
-    end
+   end
 
-    if Date.parse(end_date) < Date.parse(start_date) 
-      e = Errors::BadRequest.new("Start date is newer than end date")
-      ErrorSerializer.new(e)
-      flash.now[:error] = "#{e.detail}"
-      render 'new' , status: e.status and return 
-    else
-     @response = getData(country, start_date, end_date)
-    end
-  end
+   if Date.parse(end_date) < Date.parse(start_date) 
+    e = Errors::BadRequest.new("Start date is newer than end date")
+    Rails.logger.error e.detail
+    ErrorSerializer.new(e)
+    flash.now[:error] = "#{e.detail}"
+    render 'new' , status: e.status and return 
+  else
+   @response = getData(country, start_date, end_date)
+ end
+end
 
 end

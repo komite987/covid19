@@ -1,6 +1,6 @@
 <br>
 <div class="row">
-  <h1 class=" col-md-8"> <%= @response[0]['Country'] %></h1>
+  <h1 class=" col-md-8"> <%= @response[0]['Country'].capitalize %></h1>
 
   <%= link_to 'New Search', search_path, class: 'col-md-3' %>
     <h6><strong> Data and Charts begin from the first case recorded (all other data will be deprecated)

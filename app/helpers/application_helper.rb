@@ -1,7 +1,12 @@
 module ApplicationHelper
 
   def parse(url)
-    JSON.parse RestClient.get(url)
+    begin
+      JSON.parse(RestClient.get(url))
+    rescue SocketError
+      {}
+    end
+
   end
 
   def removeColony(v=[])
@@ -18,8 +23,8 @@ module ApplicationHelper
 
   def unfoundCountry(name)
     countries = parse(Rails.configuration.country_check)
-    found = countries.select { |a| a['Slug'] == name } 
-    return true if found.length == 0 
+      found = countries.select { |a| a['Slug'] == name }
+      return true if found.length == 0 
   end
 
   def irrigularStatus(country,y=[],start_date,end_date)
@@ -52,14 +57,12 @@ module ApplicationHelper
   end
 
   def getData(country, start_date,end_date)
-    @countryAllstats = parse("#{Rails.configuration.country_all_data}#{country}")
-
-
-    if country == "china" || "australia"
-      irrigularStatus(country, (parse "https://api.covid19api.com/country/#{country}?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"),start_date,end_date)
-    else
-      parse "https://api.covid19api.com/country/#{country}?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"
-    end
+      @countryAllstats = parse("#{Rails.configuration.country_all_data}#{country}")
+      if country == "china" || "australia"
+        irrigularStatus(country, (parse "https://api.covid19api.com/country/#{country}?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"),start_date,end_date)
+      else
+        parse "https://api.covid19api.com/country/#{country}?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"
+      end
   end
 
   def countries_list
