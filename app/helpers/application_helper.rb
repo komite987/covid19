@@ -23,8 +23,8 @@ module ApplicationHelper
 
   def unfoundCountry(name)
     countries = parse(Rails.configuration.country_check)
-      found = countries.select { |a| a['Slug'] == name }
-      return true if found.length == 0 
+    found = countries.select { |a| a['Slug'] == name }
+    return true if found.length == 0 
   end
 
   def irrigularStatus(country,y=[],start_date,end_date)
@@ -57,23 +57,21 @@ module ApplicationHelper
   end
 
   def getData(country, start_date,end_date)
-      @countryAllstats = parse("#{Rails.configuration.country_all_data}#{country}")
-      if country == "china" || "australia"
-        irrigularStatus(country, (parse "https://api.covid19api.com/country/#{country}?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"),start_date,end_date)
-      else
-        parse "https://api.covid19api.com/country/#{country}?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"
-      end
+    @countryAllstats = parse("#{Rails.configuration.country_all_data}#{country}")
+    if country == "china" || "australia"
+      irrigularStatus(country, (parse "https://api.covid19api.com/country/#{country}?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"),start_date,end_date)
+    else
+      parse "https://api.covid19api.com/country/#{country}?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"
+    end
   end
 
   def countries_list
     begin
       countriesArray = []
       list = parse(Rails.configuration.country_list)
-
       list["Countries"].each do |item|
-        country = item['Slug']
-
-        countriesArray << country.gsub("-", " ").capitalize
+      country = item['Slug']
+      countriesArray << country.gsub("-", " ").capitalize
       end
       countriesArray.sort_by { |country| country }
     rescue
@@ -87,7 +85,6 @@ module ApplicationHelper
     s.each_with_index do |day, index|
       if index != 0 && day['Confirmed'] != 0
         dayData = day[status]
-
         dayArray << dayData
       end
     end
