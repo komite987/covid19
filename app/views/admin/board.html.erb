@@ -1,0 +1,15 @@
+<h1>Users List</h1>
+
+<div class="row row-cols-1 row-cols-md-3">
+  <% @users.each do |user| %>
+  <div class="col mb-4">
+    <div class="card h-100">
+      <div class="card-body">
+        <h5 class="card-title">Name: <%= user.name %></h5>
+        <p>Email: <%= user.email %></p>
+        <%= link_to 'Delete', registration_path(user), data: { confirm: "Are you sure?" }, method: :delete, class: 'badge badge-warning' %>
+      </div>
+    </div>
+  </div>
+  <% end %>
+</div>

@@ -30,8 +30,7 @@ gem 'jquery-rails', '~> 4.4'
 gem 'bootstrap', '~> 4.5'
 gem "font-awesome-rails"
 gem 'restcountry'
-# gem 'active_model_serializers', '~> 0.10.10'
-
+gem 'devise', '~> 4.7', '>= 4.7.2'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password

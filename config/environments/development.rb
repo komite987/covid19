@@ -57,6 +57,8 @@ Rails.application.configure do
     config.country_all_data = "https://api.covid19api.com/total/country/"
     config.log_formatter = MessageFormatter.new
 
+    config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
 
    
 

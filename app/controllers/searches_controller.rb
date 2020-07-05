@@ -1,4 +1,5 @@
 class SearchesController < ApplicationController
+  skip_before_action :authenticate_user!, except:[:show]
 
   def home
   end
