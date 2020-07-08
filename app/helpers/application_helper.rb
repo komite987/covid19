@@ -77,12 +77,13 @@ module ApplicationHelper
   end
 
   def getData(country, start_date,end_date)
+    @countryAllstats = parse("#{Rails.configuration.country_all_data}#{country}")
+
     begin
       if country == "china" || country =="australia"
-        irrigularStatus(country, (parse "https://api.covid19apis.com/country/#{country}?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"),start_date,end_date)
+        irrigularStatus(country, (parse "https://api.covid19api.com/country/#{country}?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"),start_date,end_date)
       else
-        parse "https://api.covid19apiss.com/country/#{country}?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"
-        @countryAllstats = parse("#{Rails.configuration.country_all_data}#{country}")
+        parse "https://api.covid19api.com/country/#{country}?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"
 
       end
     rescue Exception => e
