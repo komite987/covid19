@@ -1,0 +1,26 @@
+<h1 class="text-center">Users List</h1>
+<div class="text-center">
+  <%= link_to 'Add user', new_user_path, class: 'btn btn-md btn-primary'%>
+</div>
+<br>
+<div class="row row-cols-1 row-cols-md-3">
+  <% @users.each do |user| %>
+  <div class="col mb-4">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title"><%= user.name.capitalize %>
+          <%= " (YOU)" if user == current_user %>
+          <%= " (ADMIN)" if user.admin %>
+        </h4>
+
+        <p class="card-text">Email: <%= user.email %></p>
+        <%= link_to 'User page', user_path(user), class: 'btn btn-sm btn-outline-info' %>
+        <%= link_to 'Edit', edit_user_path(user), class: 'btn btn-sm btn-outline-primary' %>
+
+        <%= link_to 'Delete', user_path(user), method: :delete,
+        data: {confirm: "Are you sure to delete this user"},  class: 'btn btn-sm btn-outline-danger' %>
+      </div>
+    </div>
+  </div>
+  <% end %>
+</div>

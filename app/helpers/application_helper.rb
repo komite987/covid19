@@ -3,65 +3,90 @@ module ApplicationHelper
   def parse(url)
     begin
       JSON.parse(RestClient.get(url))
-    rescue SocketError
+    rescue Exception => e
+      {}
+    end
+  end
+
+  def removeColony(v=[])
+    begin
+      v.select { |a| a['Province'] == '' && a['City'] == ''}
+    rescue Exception => e
+      {}
+    end
+  end
+
+  def periodStatus(s=[],status)
+    begin
+      s.last[status] - s.first[status]
+    rescue Exception => e
+      {}
+    end
+  end
+
+  def dayStatus(s=[],index,status)
+    begin
+      s[index][status] - s[index-1][status]
+    rescue Exception => e
       {}
     end
 
   end
 
-  def removeColony(v=[])
-    v.select { |a| a['Province'] == '' && a['City'] == ''}
-  end
-
-  def periodStatus(s=[],status)
-    s.last[status] - s.first[status] 
-  end
-
-  def dayStatus(s=[],index,status)
-    s[index][status] - s[index-1][status]
-  end
-
   def unfoundCountry(name)
-    countries = parse(Rails.configuration.country_check)
-    found = countries.select { |a| a['Slug'] == name }
-    return true if found.length == 0 
+    begin
+      countries = parse(Rails.configuration.country_check)
+      found = countries.select { |a| a['Slug'] == name }
+      return true if found.length == 0 
+    rescue Exception => e
+      {}
+    end
   end
 
   def irrigularStatus(country,y=[],start_date,end_date)
-    newArray = []
-    startDate = Date.parse(start_date)
-    endDate =  Date.parse(end_date)
-    newElement = {}
-    for date in (startDate..endDate) do
-     z = y.select { |a| a['Date'].include? date.strftime('%Y-%m-%d') }
-     dayCon = dayDeth = dayRec = dayAct = 0
-     z.each do |total| 
-       dayCon += total['Confirmed'] 
-       dayDeth += total['Deaths'] 
-       dayRec += total['Recovered'] 
-       dayAct += total['Active']
-     end
-     newElement = {"Country" => country,
-      "CountryCode"=> "",
-      "Province"=> "",
-      "City"=> "",
-      "CityCode"=> "",
-      "Confirmed"=> dayCon,
-      "Deaths"=> dayDeth,
-      "Recovered"=> dayRec,
-      "Active"=> dayAct,
-      "Date"=> "#{date}T00:00:00Z" }
-      newArray << newElement
+    begin
+      newArray = []
+      startDate = Date.parse(start_date)
+      endDate =  Date.parse(end_date)
+      newElement = {}
+      for date in (startDate..endDate) do
+       z = y.select { |a| a['Date'].include? date.strftime('%Y-%m-%d') }
+       dayCon = dayDeth = dayRec = dayAct = 0
+       z.each do |total| 
+         dayCon += total['Confirmed'] 
+         dayDeth += total['Deaths'] 
+         dayRec += total['Recovered'] 
+         dayAct += total['Active']
+       end
+       newElement = {"Country" => country,
+        "CountryCode"=> "",
+        "Province"=> "",
+        "City"=> "",
+        "CityCode"=> "",
+        "Confirmed"=> dayCon,
+        "Deaths"=> dayDeth,
+        "Recovered"=> dayRec,
+        "Active"=> dayAct,
+        "Date"=> "#{date}T00:00:00Z" }
+        newArray << newElement
+      end
+      newArray 
+    rescue Exception => e
+      {}
     end
-    newArray 
   end
 
   def getData(country, start_date,end_date)
-    @countryAllstats = parse("#{Rails.configuration.country_all_data}#{country}")
-    if country == "china" || "australia"
-      irrigularStatus(country, (parse "https://api.covid19api.com/country/#{country}?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"),start_date,end_date)
-    else
-      parse "https://api.covid19api.com/country/#{country}?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"
+    begin
+      if country == "china" || country =="australia"
+        irrigularStatus(country, (parse "https://api.covid19apis.com/country/#{country}?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"),start_date,end_date)
+      else
+        parse "https://api.covid19apiss.com/country/#{country}?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"
+        @countryAllstats = parse("#{Rails.configuration.country_all_data}#{country}")
+
+      end
+    rescue Exception => e
+      {}
     end
   end
 
@@ -111,7 +136,6 @@ module ApplicationHelper
       end
     end
     Date.parse(dayRange.first).prev_month.strftime('%Y,%m,%d') if dayRange.length > 0
-
   end 
 
   def bootstrap_class_for flash_type

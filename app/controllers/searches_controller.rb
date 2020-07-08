@@ -16,8 +16,8 @@ class SearchesController < ApplicationController
       flash.now[:error] = "#{e.detail}"
       render 'new' , status: e.status and return 
     elsif unfoundCountry(params['country'].gsub(" ", "-").downcase)
-      # Rails.logger.error e.detail
       e = Errors::NotFound.new("Country not found")
+      Rails.logger.error e.detail
       ErrorSerializer.new(e)
       flash.now[:error] = "#{e.detail}"
       render 'new' , status: e.status and return 
@@ -49,18 +49,25 @@ class SearchesController < ApplicationController
       flash.now[:error] = "#{e.detail}"
       render 'new' , status: e.status and return 
     else
-     end_date =  Date.parse(params['end_date']).to_s
-   end
+      end_date =  Date.parse(params['end_date']).to_s
+    end
 
-   if Date.parse(end_date) < Date.parse(start_date) 
-    e = Errors::BadRequest.new("Start date is newer than end date")
-    Rails.logger.error e.detail
-    ErrorSerializer.new(e)
-    flash.now[:error] = "#{e.detail}"
-    render 'new' , status: e.status and return 
-  else
-   @response = getData(country, start_date, end_date)
- end
-end
+    if Date.parse(end_date) < Date.parse(start_date) 
+      e = Errors::BadRequest.new("Start date is newer than end date")
+      Rails.logger.error e.detail
+      ErrorSerializer.new(e)
+      flash.now[:error] = "#{e.detail}"
+      render 'new' , status: e.status and return 
+    else
+      @response = getData(country, start_date, end_date)
+      if !@response.is_a?(Array)
+        e = Errors::StandardError.new(detail: "External Api error")
+        Rails.logger.error e.detail
+        ErrorSerializer.new(e)
+        flash.now[:error] = "#{e.detail}"
+        render 'new' , status: e.status and return 
+      end
+    end
+  end
 
 end
