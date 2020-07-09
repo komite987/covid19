@@ -26,9 +26,20 @@ class UsersController < ApplicationController
   end
 
   def edit
+    if @user.admin && (@user != current_user)
+      flash[:error] = "Can't edit admin"
+      redirect_to users_path
+    end
+
   end
 
   def update
+
+    if params[:user][:password].blank? && params[:user][:password_confirmation].blank?
+      params[:user].delete(:password)
+      params[:user].delete(:password_confirmation)
+    end
+
     if @user.update(user_params)
       flash[:success] = "Update completed"
       redirect_to users_path
@@ -48,25 +59,23 @@ class UsersController < ApplicationController
     end
   end
 
-    private
+  private
 
-    def user_params
-      params.require(:user).permit(:name, :email, :password, :password_confirmation)
+  def user_params
+    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+  end
+
+  def set_user
+    @user = User.find(params[:id])
+  end
+
+
+  def require_admin
+    if !current_user.admin
+      flash.now[:error] = "Only admin can do that"
+      redirect_to root_path
     end
-
-    def set_user
-      @user = User.find(params[:id])
-    end
+  end
 
 
-    def require_admin
-      if !current_user.admin
-        flash.now[:error] = "Only admin can do that"
-        redirect_to root_path
-      end
-    end
-
-
-
-
-end
+  end

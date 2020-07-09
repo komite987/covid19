@@ -24,7 +24,7 @@
   <%= f.label :password %>
   </div>
   <div class="col-sm-8">
-  <%= f.password_field :password, class: "form-control", placeholder: "Enter password" %>
+  <%= f.password_field :password, class: "form-control", placeholder:(@user.new_record? ? 'Enter Password' : 'leave blank if you don\'t want to change it') %>
 </div>
 </div>
 
@@ -33,7 +33,7 @@
   <%= f.label :password_confirmation %>
   </div>
   <div class="col-sm-8">
-  <%= f.password_field :password_confirmation, class: "form-control", placeholder: "Confirm password" %>
+  <%= f.password_field :password_confirmation, class: "form-control", placeholder:(@user.new_record? ? 'Confirm Password' : 'leave blank if you don\'t change password') %>
 </div>
 </div>
 
