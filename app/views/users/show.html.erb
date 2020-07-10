@@ -1,12 +1,14 @@
-<h1>User Page</h1>
-<div class="row row-cols-1 row-cols-md-3">
-  <div class="col mb-4">
-    <div class="card">
-      <div class="card-body">
-        <h4 class="card-title"><%= @user.name.capitalize %></h4>
-        <p class="card-text">Email: <%= @user.email %></p>
-        <%= link_to 'Back', users_path, class: 'btn btn-sm btn-info'%>
-        </div>
-      </div>
+<h1 class="text-center"><%= @user.name.capitalize %> Page</h1>
+<div class="col-lg-8 offset-lg-2 text-center">
+  <div class="card">
+    <div class="card-body">
+      <%= image_tag("#{@user.photo}" ,class: 'show-img rounded-circle') %>
+      <br><br>
+      <p class="card-text"><strong>Email:</strong> <%= @user.email %></p>
+      <p class="card-text"><strong>Phone:</strong> <%= @user.phone %></p>
+      <p class="card-text"><strong>Mobile:</strong> <%= @user.mobile %></p>
+      <p class="card-text"><strong>Address:</strong> <%= @user.address %></p>
+      <%= link_to 'Back', users_path, class: 'btn btn-md btn-info'%>
     </div>
   </div>
+</div>

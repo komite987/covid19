@@ -5,13 +5,14 @@
 <br>
 <div class="row row-cols-1 row-cols-md-3">
   <% @users.each do |user| %>
-  <div class="col mb-4">
+  <div class="col mb-4 text-center">
     <div class="card">
+      <%= image_tag("#{user.photo}") %>
       <div class="card-body">
-        <h4 class="card-title"><%= user.name.capitalize %>
+        <p class="card-title"><%= user.name.capitalize %>
           <%= " (YOU)" if user == current_user %>
           <%= " (ADMIN)" if user.admin %>
-        </h4>
+        </p>
 
         <p class="card-text">Email: <%= user.email %></p>
         <%= link_to 'User page', user_path(user), class: 'btn btn-sm btn-outline-info' %>

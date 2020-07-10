@@ -1,46 +1,50 @@
 <%= render 'errors', obj: @user %>
 
-  <%= form_with(model: @user, local:true) do |f| %>
-<div class="form-group row">
-  <div  class="col-sm-2 col-form-label text-right">
-    <%= f.label :name %>
+<%= form_with(model: @user, local:true) do |f| %>
+<div class="col-lg-8 offset-lg-2">
+  <div class="form-group ">
+    <%= f.label :name %><br />
+    <%= f.text_field :name, class: "form-control", placeholder: "Enter name", autofocus: true %>
   </div>
-  <div class="col-sm-8">
-  <%= f.text_field :name, class: "form-control", placeholder: "Enter name", autofocus: true %>
-</div>
-</div>
-
-<div class="form-group row">
-  <div  class="col-sm-2 col-form-label text-right">
-  <%= f.label :email %>
+  <div class="form-group ">
+    <%= f.label :email %><br />
+    <%= f.text_field :email, class: "form-control", placeholder: "Enter email" %>
   </div>
-  <div class="col-sm-8">
-  <%= f.text_field :email, class: "form-control", placeholder: "Enter email" %>
-</div>
-</div>
 
-<div class="form-group row">
-  <div  class="col-sm-2 col-form-label text-right">
-  <%= f.label :password %>
+  <div class="form-group ">
+    <%= f.label :phone %><br />
+    <%= f.text_field :phone, class: "form-control", placeholder: "Enter phone number" %>
   </div>
-  <div class="col-sm-8">
-  <%= f.password_field :password, class: "form-control", placeholder:(@user.new_record? ? 'Enter Password' : 'leave blank if you don\'t want to change it') %>
-</div>
-</div>
-
-<div class="form-group row">
-  <div  class="col-sm-2 col-form-label text-right">
-  <%= f.label :password_confirmation %>
+  <div class="form-group ">
+    <%= f.label :mobile %><br />
+    <%= f.text_field :mobile, class: "form-control", placeholder: "Enter mobile number" %>
   </div>
-  <div class="col-sm-8">
-  <%= f.password_field :password_confirmation, class: "form-control", placeholder:(@user.new_record? ? 'Confirm Password' : 'leave blank if you don\'t change password') %>
-</div>
-</div>
+  <div class="form-group ">
+    <%= f.label :address %><br />
+    <%= f.text_field :address, class: "form-control", placeholder: "Enter your address" %>
+  </div>
 
 
-<div class="form-group row">
-  <div class="offset-sm-2 col-sm-10">
+  <div class="form-group ">
+    <%= f.label :password %><br />
+    <%= f.password_field :password, class: "form-control", placeholder:(@user.new_record? ? 'Enter Password' : 'leave blank if you don\'t want to change it') %>
+  </div>
+
+  <div class="form-group ">
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation, class: "form-control", placeholder:(@user.new_record? ? 'Confirm Password' : 'leave blank if you don\'t change password') %>
+  </div>
+  <div class="form-group">
+    <br>
+    <label class="btn btn-info">
+      <%= (@user.new_record? ? 'Upload image' : 'Change image')%> <%= f.file_field :photo, style: 'display:none;' %>
+    </label>
+  </div>
+
+
+  <div class="form-group row">
     <%= f.submit(@user.new_record? ? 'Add Uuser' : 'Update user account', class: 'btn btn-primary') %>
   </div>
 </div>
 <% end %>
+<br>
