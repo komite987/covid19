@@ -51,6 +51,15 @@
             Change image <%= f.file_field :photo, style: 'display:none;' %>
           </label>
         </div>
+        <% if @user.photo? %>
+        <div>
+          <%= label_tag :remove_photo do %>
+          Remove image
+          <%= f.check_box :remove_photo %>
+          <% end %>
+        </div>
+        <% end %>
+
       </div>
     </div>
     <div class="row">

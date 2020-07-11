@@ -68,6 +68,7 @@ class UsersController < ApplicationController
                                  :phone,
                                  :mobile,
                                  :photo,
+                                 :remove_photo,
                                  :password,
                                  :password_confirmation)
   end

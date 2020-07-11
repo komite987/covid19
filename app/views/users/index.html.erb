@@ -7,7 +7,12 @@
   <% @users.each do |user| %>
   <div class="col mb-4 text-center">
     <div class="card">
+      <% if user.photo? %>
       <%= image_tag("#{user.photo}") %>
+      <% else %>
+      <%= image_tag("https://place-hold.it/300x200") %>
+      <% end %>
+
       <div class="card-body">
         <p class="card-title"><%= user.name.capitalize %>
           <%= " (YOU)" if user == current_user %>

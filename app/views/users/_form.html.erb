@@ -39,6 +39,15 @@
     <label class="btn btn-info">
       <%= (@user.new_record? ? 'Upload image' : 'Change image')%> <%= f.file_field :photo, style: 'display:none;' %>
     </label>
+    <% if @user.photo? %>
+    <div>
+      <%= label_tag :remove_photo do %>
+      Remove image
+      <%= f.check_box :remove_photo %>
+      <% end %>
+    </div>
+    <% end %>
+
   </div>
 
 
