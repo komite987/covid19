@@ -35,6 +35,7 @@ gem 'hirb', '~> 0.7.3'
 gem 'dotenv', '~> 2.7', '>= 2.7.5'
 gem 'carrierwave', '~> 2.1'
 gem 'mini_magick', '~> 4.10', '>= 4.10.1'
+gem 'dry-validation', '~> 1.5', '>= 1.5.1'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
