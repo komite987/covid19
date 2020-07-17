@@ -1,5 +1,6 @@
-<%= render 'errors', obj: @user %>
-
+<% if @errors %>
+  <%= render 'errors', obj: @errors %>
+<% end %>
 <%= form_with(model: @user, local:true) do |f| %>
 <div class="col-lg-8 offset-lg-2">
   <div class="form-group ">

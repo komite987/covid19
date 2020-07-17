@@ -1,22 +1,27 @@
 class UsersController < ApplicationController
   before_action :set_user, except: [:index, :new, :create]
   before_action :require_admin
-  # before_action :ensure_params, only: [:create, :update]
 
   def new
     @user = User.new
   end
 
   def create
-    # render json: params[:user].to_json
-    @user = User.new(user_params)
-    if @user.save
+    @user = User.new
+
+    contract = NewUserContract.new
+    validation = contract.call(params[:user].to_enum.to_h)
+    # validation = contract.call(params[:user].to_unsafe_hash)
+
+    if validation.success?
+      @user.attributes = validation.to_h
+      @user.save
       flash[:success] = "User added successfully"
       redirect_to users_path
     else
+      @errors = validation.errors.to_h
       render 'new'
     end
-
   end
 
 
@@ -62,19 +67,20 @@ class UsersController < ApplicationController
     end
   end
 
+
   private
 
-  def user_params
-    params.require(:user).permit(:name,
-     :email,
-     :address,
-     :phone,
-     :mobile,
-     :photo,
-     :remove_photo,
-     :password,
-     :password_confirmation)
-  end
+  # def user_params
+  #   params.require(:user).permit(:name,
+  #    :email,
+  #    :address,
+  #    :phone,
+  #    :mobile,
+  #    :photo,
+  #    :remove_photo,
+  #    :password,
+  #    :password_confirmation)
+  # end
 
   def set_user
     @user = User.find(params[:id])
@@ -88,15 +94,5 @@ class UsersController < ApplicationController
     end
   end
 
-  # def ensure_params
-  #   contract = NewUserContract.new
-  #   @validation = contract.call(user_params.to_h) 
-  #   return if @validation.success?
-  #   render 'new'
-  #    @validation.errors.to_h.each do |z,x|
-  #     flash[:error] = "#{z} + #{x}"
-  #   end
-  # end
-    
 
 end
