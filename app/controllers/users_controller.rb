@@ -10,11 +10,9 @@ class UsersController < ApplicationController
     @user = User.new
 
     contract = NewUserContract.new
-    validation = contract.call(params[:user].to_enum.to_h)
-    # validation = contract.call(params[:user].to_unsafe_hash)
-
+    validation = contract.call(request.params[:user])
     if validation.success?
-      @user.attributes = validation.to_h
+      @user = User.new(user_params)
       @user.save
       flash[:success] = "User added successfully"
       redirect_to users_path
@@ -42,18 +40,31 @@ class UsersController < ApplicationController
   end
 
   def update
+    # if params[:user][:password].blank? && params[:user][:password_confirmation].blank?
+    #   params[:user].delete(:password)
+    #   params[:user].delete(:password_confirmation)
+    # end
+    contract = EditUserContract.new
+    validation = contract.call(request.params[:user])
+    render json: validation.errors.to_h
+    # render json: params
+    # render json: @user
+    # if validation.success?
+    #   @user.update(user_params)                       
+    #   flash[:success] = "Update completed"
+    #   redirect_to users_path
+    # else
+    #   @errors = validation.errors.to_h
 
-    if params[:user][:password].blank? && params[:user][:password_confirmation].blank?
-      params[:user].delete(:password)
-      params[:user].delete(:password_confirmation)
-    end
+    #   render 'edit'
+    # end
 
-    if @user.update(user_params)
-      flash[:success] = "Update completed"
-      redirect_to users_path
-    else
-      render 'edit'
-    end
+    # if @user.update(user_params)
+    #   flash[:success] = "Update completed"
+    #   redirect_to users_path
+    # else
+    #   render 'edit'
+    # end
   end
 
   def destroy
@@ -66,6 +77,7 @@ class UsersController < ApplicationController
       redirect_to users_path
     end
   end
+
 
 
   private

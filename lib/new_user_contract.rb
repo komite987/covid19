@@ -6,14 +6,21 @@ class NewUserContract < Dry::Validation::Contract
     required(:mobile).filled(:string)
     required(:password).filled(:string, min_size?: 6)
     required(:password_confirmation).filled(:string)
-    optional(:address).filled(:string)
-    optional(:photo).filled(:string)
+    optional(:address).maybe(:string)
+    optional(:photo)
+  end
+
+  rule(:name) do
+    unless /^(?=.{5,15}$)(?![_. ])(?!.*[_.]{2})[a-zA-Z0-9 ]+(?<![_. ])$/i.match?(value)
+      key.failure('Has invalid format')
+    end
+
   end
 
 
   rule(:email) do
     unless /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i.match?(value)
-      key.failure('has invalid format')
+      key.failure('Has invalid format')
     end
     if User.find_by_email(value)
       key.failure('Email has been taken')
@@ -24,13 +31,13 @@ class NewUserContract < Dry::Validation::Contract
 
   rule(:phone, :mobile) do
     unless /^\(?([0-9]{5})?\)?[-.●]?([0-9]{3,4})[-.●]?([0-9]{6,7})$/i.match?(value)
-      key.failure('has invalid format')
+      key.failure('Has invalid format')
     end
   end
 
   rule(:password, :password_confirmation) do
     if values[:password] != values[:password_confirmation]
-      key.failure('password does not match password confirmation.')
+      key.failure('Password confirmation does not match password .')
     end
   end
 

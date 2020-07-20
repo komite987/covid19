@@ -15,7 +15,6 @@
 //= require bootstrap
 //= require turbolinks
 //= require rails-ujs
-
 //= require_tree .
 
 $().ready(function(){
@@ -53,4 +52,5 @@ $( document ).on('turbolinks:load', function() {
     readURL(this);
   });
 });
+
 

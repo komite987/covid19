@@ -7,7 +7,7 @@
     </h4>
     <ul>
     <% @errors.each do |k , msg|%>
-    <li><%= "#{k}" + " " + "#{msg}" %></li>
+    <li><%= "#{k}" + " " + "#{msg}".gsub("[", "").gsub("]", "").gsub('"', "") %></li>
     <% end %>
     </ul>
     </div>
