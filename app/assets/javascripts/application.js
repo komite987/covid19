@@ -53,4 +53,8 @@ $( document ).on('turbolinks:load', function() {
   });
 });
 
+$( document ).on('turbolinks:load',function myFunction() {
+  var x = document.getElementById("myInput").value;
+  document.getElementById("demo").innerHTML = "You wrote: " + x;
+});
 

@@ -37,7 +37,7 @@ class NewUserContract < Dry::Validation::Contract
 
   rule(:password, :password_confirmation) do
     if values[:password] != values[:password_confirmation]
-      key.failure('Password confirmation does not match password .')
+      key.failure(' confirmation does not match password .')
     end
   end
 

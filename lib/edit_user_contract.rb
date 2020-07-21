@@ -1,9 +1,9 @@
 class EditUserContract < Dry::Validation::Contract
   params do
-    optional(:name).maybe(:string)
-    optional(:email).maybe(:string)
-    optional(:phone).maybe(:string)
-    optional(:mobile).maybe(:string)
+    required(:name).filled(:string)
+    required(:email).filled(:string)
+    required(:phone).filled(:string)
+    required(:mobile).filled(:string)
     optional(:password).maybe(:string, min_size?: 6)
     optional(:password_confirmation)
     optional(:address).maybe(:string)
@@ -15,10 +15,6 @@ class EditUserContract < Dry::Validation::Contract
     unless /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i.match?(value)
       key.failure('has invalid format')
     end
-
-      if User.find_by_email(value)
-        key.failure('Email has been taken')
-    end
   end
 
 
@@ -27,19 +23,6 @@ class EditUserContract < Dry::Validation::Contract
       key.failure('has invalid format')
     end
   end
-
-  rule(:password, :password_confirmation) do
-    # if params[:user][:password].blank? && params[:user][:password_confirmation].blank?
-    #   params[:user].delete(:password)
-    #   params[:user].delete(:password_confirmation)
-    # end
-
-    if values[:password] != values[:password_confirmation]
-      key.failure('Password confirmation does not match password .')
-    end
-  end
-
-
 
 end
 
