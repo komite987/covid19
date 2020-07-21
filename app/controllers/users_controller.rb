@@ -92,14 +92,14 @@ private
 
 def user_params
   params.require(:user).permit(:name,
-   :email,
-   :address,
-   :phone,
-   :mobile,
-   :photo,
-   :remove_photo,
-   :password,
-   :password_confirmation)
+                               :email,
+                               :address,
+                               :phone,
+                               :mobile,
+                               :photo,
+                               :remove_photo,
+                               :password,
+                               :password_confirmation)
 end
 
 def set_user
