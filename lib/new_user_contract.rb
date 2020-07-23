@@ -19,7 +19,7 @@ class NewUserContract < Dry::Validation::Contract
 
 
   rule(:email) do
-    unless /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i.match?(value)
+    unless /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/i.match?(value)
       key.failure('Has invalid format')
     end
     if User.find_by_email(value)
