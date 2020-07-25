@@ -1,14 +1,14 @@
-
-
-<div class="card border-danger mb-3 col-sm-6 offset-3" >
-  <div  class= "card-text text-danger">
-    <h4>
-    <%= pluralize(@errors.count, "error") %> found:
-    </h4>
-    <ul>
-    <% @errors.each do |k , msg|%>
-    <li><%= "#{k}" + " " + "#{msg}".gsub("[", "").gsub("]", "").gsub('"', "") %></li>
-    <% end %>
-    </ul>
+<div class="card border-danger mb-3 col-sm-6 offset-3 alert alert-success alert-dismissible fade show w-50" role="alert" >
+    <div  class= "card-text text-danger">
+        <h4>
+            <%= pluralize(@errors.count, "error") %> found:
+        </h4>
+        <ul> <% @errors.each do |k , msg|%>
+            <li><%= "#{k}" + " " + "#{msg}".gsub("[", "").gsub("]", "").gsub('"', "") %></li>
+            <% end %>
+        </ul>
     </div>
-  </div>
+    <button type="button" class="btn close" data-dismiss="alert" aria-label="Close"> 
+        <span aria-hidden="true">×</span> 
+    </button> 
+</div>

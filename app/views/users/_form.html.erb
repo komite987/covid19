@@ -67,7 +67,7 @@
 
 
   <div class="form-group row">
-    <%= f.submit(@user.new_record? ? 'Add User' : 'Update user account', class: 'btn btn-primary') %>
+    <%= f.submit(@user.new_record? ? 'Add User' : 'Update user account', class: 'btn btn-primary', id: 'submit') %>
   </div>
 </div>
 <% end %>

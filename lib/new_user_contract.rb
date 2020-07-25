@@ -28,12 +28,18 @@ class NewUserContract < Dry::Validation::Contract
 
   end
 
-
-  rule(:phone, :mobile) do
+  rule(:phone) do
     unless /^\(?([0-9]{5})?\)?[-.●]?([0-9]{3,4})[-.●]?([0-9]{6,7})$/i.match?(value)
       key.failure('Has invalid format')
     end
   end
+  
+    rule(:mobile) do
+    unless /^\(?([0-9]{5})?\)?[-.●]?([0-9]{3,4})[-.●]?([0-9]{6,7})$/i.match?(value)
+      key.failure('Has invalid format')
+    end
+  end
+
 
   rule(:password, :password_confirmation) do
     if values[:password] != values[:password_confirmation]

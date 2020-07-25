@@ -9,25 +9,28 @@ function checkName() {
     name.style.backgroundColor= '#EF5761'
     name.style.color= '#FFFFFF'
     name.style.border= '1px solid #ced4da';
+    document.getElementById("submit").setAttribute("disabled", "true")
   }
   else if (validName != null && name.value.length >= 5 && name.value.length <= 15) {
     name.style.backgroundColor= 'white';
     name.style.color= '#559E54';
-    // name.style.border.color= '#559E54'
     name.style.border= '3px solid #559E54';
     nameOutput.innerHTML = "<i class='fa fa-check-circle'></i>";
+    document.getElementById("submit").removeAttribute("disabled")
   }
   else if (validName != null && name.value.length > 16  ){
     nameOutput.innerHTML = "Too long";
     name.style.backgroundColor= '#EF5761'
     name.style.color= '#FFFFFF'
     name.style.border= '1px solid #ced4da';
+    document.getElementById("submit").setAttribute("disabled", "true")
   }
   else if (validName == null) {
     nameOutput.innerHTML = "letters and numbers only";
     name.style.backgroundColor= '#EF5761'
     name.style.color= '#FFFFFF'
     name.style.border= '1px solid #ced4da';
+    document.getElementById("submit").setAttribute("disabled", "true")
   }
 }
 
@@ -37,20 +40,19 @@ function checkEmail() {
   var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/i;
   var validEmail = email.value.match(emailRegex);
 
-
   if(validEmail){
     email.style.backgroundColor= '#FFFFFF'
     email.style.color= '#559E54'
-    // name.style.border.color= '#559E54'
     email.style.border= '3px solid #559E54'
     emailOutput.innerHTML = "<i class='fa fa-check-circle'></i>";
-
+    document.getElementById("submit").removeAttribute("disabled")
   }
   else if (validEmail == null){
     emailOutput.innerHTML = "Invalid format";
     email.style.backgroundColor= '#EF5761'
     email.style.color= '#FFFFFF'
     email.style.border= '1px solid #ced4da';
+    document.getElementById("submit").setAttribute("disabled", "true")
   }
 }
 
@@ -64,14 +66,14 @@ function checkPassword() {
     password.style.backgroundColor= '#EF5761'
     password.style.color= '#FFFFFF'
     password.style.border= '1px solid #ced4da';
+    document.getElementById("submit").setAttribute("disabled", "true")
   }
   else {
     password.style.backgroundColor= '#FFFFFF'
     password.style.color= '#559E54'
-    // name.style.border.color= '#559E54'
     password.style.border= '3px solid #559E54'
     passwordOutput.innerHTML = "<i class='fa fa-check-circle'></i>";
-
+    document.getElementById("submit").removeAttribute("disabled")
   }
 }
 
@@ -85,14 +87,14 @@ function checkPasswordConfirm() {
     passwordConfirm.style.backgroundColor= '#EF5761'
     passwordConfirm.style.color= '#FFFFFF'
     passwordConfirm.style.border= '1px solid #ced4da';
+    document.getElementById("submit").setAttribute("disabled", "true")
   }
   else {
     passwordConfirm.style.backgroundColor= '#FFFFFF'
     passwordConfirm.style.color= '#559E54'
-    // name.style.border.color= '#559E54'
     passwordConfirm.style.border= '3px solid #559E54'
     passwordConfirmOutput.innerHTML = "<i class='fa fa-check-circle'></i>";
-
+    document.getElementById("submit").removeAttribute("disabled")
   }
 }
 
@@ -105,15 +107,17 @@ function checkPhone() {
   if(validPhone != null){
     phone.style.backgroundColor= '#FFFFFF'
     phone.style.color= '#559E54'
-    // name.style.border.color= '#559E54'
     phone.style.border= '3px solid #559E54'
     phoneOutput.innerHTML = "<i class='fa fa-check-circle'></i>";
+    document.getElementById("submit").removeAttribute("disabled")
+
   }
   else if (validPhone == null){
     phoneOutput.innerHTML = "Invalid format";
     phone.style.backgroundColor= '#EF5761'
     phone.style.color= '#FFFFFF'
     phone.style.border= '1px solid #ced4da';
+    document.getElementById("submit").setAttribute("disabled", "true")
   }
 }
 
@@ -126,16 +130,16 @@ function checkMobile() {
   if(validMobile != null){
     mobile.style.backgroundColor= '#FFFFFF'
     mobile.style.color= '#559E54'
-    // name.style.border.color= '#559E54'
     mobile.style.border= '3px solid #559E54'
     mobileOutput.innerHTML = "<i class='fa fa-check-circle'></i>";
+    document.getElementById("submit").removeAttribute("disabled")
   }
   else if (validMobile == null){
     mobileOutput.innerHTML = "Invalid format";
     mobile.style.backgroundColor= '#EF5761'
     mobile.style.color= '#FFFFFF'
     mobile.style.border= '1px solid #ced4da';
-
+    document.getElementById("submit").setAttribute("disabled", "true")
   }
 
 }
