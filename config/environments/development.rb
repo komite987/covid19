@@ -10,7 +10,7 @@ Rails.application.configure do
   config.eager_load = false
 
   # Show full error reports.
-  config.consider_all_requests_local = true
+  config.consider_all_requests_local = false
 
   # Enable/disable caching. By default caching is disabled.
   if Rails.root.join('tmp/caching-dev.txt').exist?
@@ -52,14 +52,14 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-    config.country_list = "https://api.covid19api.com/summary"
-    config.country_check ="https://api.covid19api.com/countries"
-    config.country_all_data = "https://api.covid19api.com/total/country/"
-    config.log_formatter = MessageFormatter.new
+  config.country_list = "https://api.covid19api.com/summary"
+  config.country_check ="https://api.covid19api.com/countries"
+  config.country_all_data = "https://api.covid19api.com/total/country/"
+  config.log_formatter = MessageFormatter.new
 
-    config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
 
-   
+  
 
 end
