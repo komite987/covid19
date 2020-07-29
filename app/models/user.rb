@@ -6,4 +6,6 @@ class User < ApplicationRecord
 
   mount_uploader :photo, ProfileUploader
 
+  validates_presence_of :name, :phone, :mobile
+
 end
