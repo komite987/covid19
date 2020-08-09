@@ -5,6 +5,7 @@ class SearchesController < ApplicationController
   end
 
   def new
+    @world_stats = parse('https://api.covid19api.com/summary')
   end
 
   def show
@@ -68,6 +69,7 @@ class SearchesController < ApplicationController
         render 'new' , status: e.status and return 
       end
     end
+    # render json: params
   end
 
 end

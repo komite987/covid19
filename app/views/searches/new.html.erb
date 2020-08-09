@@ -1,35 +1,57 @@
 <br>
 <h1>Enter Your Search Info</h1>
 <br> 
+
 <%= form_tag("/search", method: "post") do %>
 <div class="row">
-  <div class="form-group col-lg-8">
-    <%= label_tag(:country, "Country Name:") %>
-    <%= text_field_tag(:country, nil , class: 'form-control' , list: "mylist")  %>
-    <datalist id="mylist">
-      <% countries_list.each do |country| %>
-      <option><%= country %></option>
-      <% end %>
-    </datalist>
+  <div class="col-lg-8">
+    <div class="row">
 
-  </div> 
-</div>
-<div class="row">
-  <div class="form-group col-lg-4">
-    <%= label_tag(:start_date, "Start Date:", class: 'col-form-label') %>
-    <input class="form-control" type="date" value="2020-01-22" min="2020-01-22" name="start_date" max="<%= DateTime.yesterday.strftime('%Y-%m-%d')%>">
+      <div class="form-group col-lg-12">
+        <%= label_tag(:country, "Country Name:") %>
+        <%= text_field_tag(:country, nil , class: 'form-control' , list: "mylist")  %>
+        <datalist id="mylist">
+          <% countries_list.each do |country| %>
+          <option><%= country %></option>
+          <% end %>
+        </datalist>
+      </div> 
+    </div>
+    <div class="row">
+      <div class="form-group col-md-6">
+        <%= label_tag(:start_date, "Start Date:", class: 'col-form-label') %>
+        <input class="form-control" type="date" value="2020-01-22" min="2020-01-22" name="start_date" max="<%= DateTime.yesterday.strftime('%Y-%m-%d')%>">
+      </div>
+
+      <div class="form-group col-md-6">
+        <%= label_tag(:end_date, "End Date:", class: 'col-form-label') %>
+        <input class="form-control" type="date" value="<%= DateTime.yesterday.strftime("%Y-%m-%d")%>" name="end_date" max="<%= DateTime.yesterday.strftime("%Y-%m-%d")%>">
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-lg-4">
+        <%= submit_tag("Search", class: 'btn btn-success btn-block ') %>
+      </div>
+    </div>
+    <% end %>
   </div>
 
-  <div class="form-group col-lg-4">
-    <%= label_tag(:end_date, "End Date:", class: 'col-form-label') %>
-    <input class="form-control" type="date" value="<%= DateTime.yesterday.strftime("%Y-%m-%d")%>" name="end_date" max="<%= DateTime.yesterday.strftime("%Y-%m-%d")%>">
+  <div class="col-lg-4 text-center">
+    <div class="card gradient-card">
+
+      <div class="h-100 mask blue-gradient-rgba">
+        <div class="first-content align-self-center p-3">
+          <h3 class="card-title">All world Stats</h3>
+          <% @world_stats['Global'].each do |key, value| %>
+          <p class="lead mb-0"> <%= "#{key}:  #{value}" %></p>
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+
   </div>
+
 </div>
-<div class="row">
-  <div class="form-group col-lg-2">
-    <%= submit_tag("Search", class: 'btn btn-success btn-block ') %>
-  </div>
-</div>
-<% end %>
 
 

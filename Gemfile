@@ -36,6 +36,7 @@ gem 'dotenv', '~> 2.7', '>= 2.7.5'
 gem 'carrierwave', '~> 2.1'
 gem 'mini_magick', '~> 4.10', '>= 4.10.1'
 gem 'dry-validation', '~> 1.5', '>= 1.5.1'
+gem 'rails-controller-testing'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
@@ -49,11 +50,10 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
-  gem 'selenium-webdriver'
   gem 'rspec-rails', '~> 4.0', '>= 4.0.1'
   gem 'factory_bot_rails', '~> 6.1'
   gem 'faker', '~> 2.13'
-  gem 'database_cleaner', '~> 1.8', '>= 1.8.5'
+  gem 'simplecov', '~> 0.18.5'
 end
 
 group :development do

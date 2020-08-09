@@ -15,7 +15,7 @@ class UsersController < ApplicationController
       @user = User.new(user_params)
       @user.save
       flash[:success] = "User added successfully"
-      redirect_to users_path
+      redirect_to users_path, status: 201
     else
       @errors = validation.errors.to_h
       render 'new'
@@ -69,7 +69,7 @@ class UsersController < ApplicationController
     end
     @user.update(user_params)                       
     flash[:success] = "Update completed"
-    redirect_to users_path
+    redirect_to users_path, status: 200
   else
     @errors = validation.errors.to_h
     render 'edit'
@@ -83,7 +83,7 @@ def destroy
   else
     @user.destroy
     flash[:success] = "User has been deleted"
-    redirect_to users_path
+    redirect_to users_url, status: 200
   end
 end
 
@@ -110,8 +110,11 @@ end
 
 def require_admin
   if !current_user.admin
-    flash[:error] = "Only admin can do that"
-    redirect_to root_path
+    e = Errors::NotAuthorized.new("Only admins can do this")
+    Rails.logger.error e.detail
+    ErrorSerializer.new(e)
+    flash[:error] = "#{e.detail}"
+    render 'searches/home' , status: e.status and return
   end
 end
 

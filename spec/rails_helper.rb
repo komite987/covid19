@@ -7,6 +7,11 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require 'rspec/rails'
 require 'devise'
 require_relative 'support/controller_macros'
+require 'capybara/rails'
+require 'simplecov'
+require 'faker'
+
+SimpleCov.start
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -23,7 +28,7 @@ require_relative 'support/controller_macros'
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 #
-# Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
+Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
 
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.
