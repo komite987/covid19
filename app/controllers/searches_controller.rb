@@ -2,10 +2,12 @@ class SearchesController < ApplicationController
   skip_before_action :authenticate_user!, except:[:show, :new]
 
   def home
+    @world_stats = parse("https://api.covid19api.com/summary")
+    @top_confirmed = total_stats(@world_stats["Countries"], "TotalConfirmed").first(5)
+    @top_death = total_stats(@world_stats["Countries"], "TotalDeaths").first(5)
   end
 
   def new
-    @world_stats = parse('https://api.covid19api.com/summary')
   end
 
   def show
@@ -21,7 +23,7 @@ class SearchesController < ApplicationController
       Rails.logger.error e.detail
       ErrorSerializer.new(e)
       flash.now[:error] = "#{e.detail}"
-      render 'new' , status: e.status and return 
+      render 'new' , status: e.status and return
     else
       country = params['country'].gsub(" ", "-").downcase
     end

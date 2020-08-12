@@ -15,10 +15,10 @@ class UsersController < ApplicationController
       @user = User.new(user_params)
       @user.save
       flash[:success] = "User added successfully"
-      redirect_to users_path, status: 201
+      redirect_to users_path
     else
       @errors = validation.errors.to_h
-      render 'new'
+      render 'new', status: 400
     end
   end
 
@@ -69,7 +69,7 @@ class UsersController < ApplicationController
     end
     @user.update(user_params)                       
     flash[:success] = "Update completed"
-    redirect_to users_path, status: 200
+    redirect_to users_path, status: 301
   else
     @errors = validation.errors.to_h
     render 'edit'
@@ -83,7 +83,7 @@ def destroy
   else
     @user.destroy
     flash[:success] = "User has been deleted"
-    redirect_to users_url, status: 200
+    redirect_to users_url
   end
 end
 
