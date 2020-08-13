@@ -39,4 +39,8 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+  config.country_list = "https://api.covid19api.com/summary"
+  config.country_check ="https://api.covid19api.com/countries"
+  config.country_all_data = "https://api.covid19api.com/total/country/"
+
 end
