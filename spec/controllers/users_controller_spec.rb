@@ -22,13 +22,5 @@ RSpec.describe UsersController do
 
 end
 
- #  it "registes a new agency admin user" do
- #   post '/v1/admin/user', params: (Rails.configuration.agency_admin_attributes) , as: :json ,headers:{:Authorization =>ikar_token,:accept => :json, content_type: :json }
- #   resp =JSON.parse(response.body)
- #   Rails.configuration.agency_admin_id = resp["data"]["user"]["id"]
- #   Rails.configuration.agency_admin_agency_ref_id = resp["data"]["user"]["agency_ref_id"]
- #   expect(response.status).to eql(201)
- # end
-
 
 

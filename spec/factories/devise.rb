@@ -7,6 +7,8 @@ FactoryBot.define do
     password_confirmation {"123456"}
     phone {"04188008800"}
     mobile {"0988323323"}
+    admin {false}
+
   end
 
   factory :admin, class: User do

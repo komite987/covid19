@@ -69,7 +69,7 @@ class UsersController < ApplicationController
     end
     @user.update(user_params)                       
     flash[:success] = "Update completed"
-    redirect_to users_path, status: 301
+    redirect_to users_path
   else
     @errors = validation.errors.to_h
     render 'edit'
