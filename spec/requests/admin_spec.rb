@@ -17,7 +17,7 @@ RSpec.describe "Admin actions", :type => :request do
       end
 
       it "should add new user to database" do 
-        expect { post '/users' , params: {user: user_params} }.to change(User, :count).by(1)
+        expect { post '/users' , params: {user: user_params} }.to change(User, :count).from(1).to(2)
       end
     end
     describe "with invalid params" do 
