@@ -15,7 +15,8 @@ RSpec.describe UsersController do
     login_user
     it "returns a not authorized response" do
       get :index
-      expect(response).to have_http_status(401) 
+      expect(response).to redirect_to('/')
+      expect(response).to have_http_status(:found) 
     end
   end
 
