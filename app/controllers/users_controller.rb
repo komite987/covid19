@@ -103,11 +103,8 @@ class UsersController < ApplicationController
 
   def require_admin
     if !current_user.admin
-      e = Errors::NotAuthorized.new("Only admins can do this")
-      Rails.logger.error e.detail
-      ErrorSerializer.new(e)
-      flash[:error] = "#{e.detail}"
-      render 'searches/home' , status: e.status and return
+      flash[:error] = "Only admins can do this"
+      redirect_to root_path 
     end
   end
 

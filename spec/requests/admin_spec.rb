@@ -122,7 +122,8 @@ RSpec.describe "Admin actions", :type => :request do
         user = create(:user)
         login_as(user)
         post '/users' , params: {user: @user_params }
-        expect(response).to render_template('searches/home')
+        expect(response).to redirect_to('/')
+        follow_redirect!
         expect(response.body).to include("Only admins can do this")
       end
     end
@@ -166,7 +167,8 @@ RSpec.describe "Admin actions", :type => :request do
         login_as(user)
         new_user = create(:user)
         patch "/users/#{new_user.id}" , params: {user: {name: 'UpdatedName', email: 'UpdatedEmail@gmail.com'}}
-        expect(response).to render_template('searches/home')
+        expect(response).to redirect_to('/')
+        follow_redirect!
         expect(response.body).to include("Only admins can do this")
       end
     end
@@ -198,7 +200,8 @@ RSpec.describe "Admin actions", :type => :request do
         login_as(user)
         new_user = create(:user)
         delete "/users/#{new_user.id}"
-        expect(response).to render_template('searches/home')
+        expect(response).to redirect_to('/')
+        follow_redirect!
         expect(response.body).to include("Only admins can do this")
       end
 
