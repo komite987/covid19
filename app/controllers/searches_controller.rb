@@ -46,8 +46,8 @@ class SearchesController < ApplicationController
       Rails.logger.warn "End at yesterday if params is blank"
       end_date =  DateTime.yesterday.strftime("%Y-%m-%d")
     elsif !params['end_date'].blank? && !valid_date?(params['end_date'])
-      Rails.logger.error e.detail
       e = Errors::BadRequest.new("End Date invalid")
+      Rails.logger.error e.detail
       ErrorSerializer.new(e)
       flash.now[:error] = "#{e.detail}"
       render 'new' , status: e.status and return 

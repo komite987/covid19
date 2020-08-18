@@ -1,51 +1,29 @@
 module ApplicationHelper
 
   def parse(url)
-    begin
-      JSON.parse(RestClient.get(url))
-    rescue  Exception => e
-      retry
-    end
+    JSON.parse(RestClient.get(url))
   end
 
   def removeColony(v=[])
-    begin
-      v.select { |a| a['Province'] == '' && a['City'] == ''}
-    rescue Exception => e
-      {}
-    end
+    v.select { |a| a['Province'] == '' && a['City'] == ''}
   end
 
   def periodStatus(s=[],status)
-    begin
-      s.last[status] - s.first[status]
-    rescue Exception => e
-      {}
-    end
+    s.last[status] - s.first[status]
   end
 
   def dayStatus(s=[],index,status)
-    begin
-      s[index][status] - s[index-1][status]
-    rescue Exception => e
-      {}
-    end
-
+    s[index][status] - s[index-1][status]
   end
 
   def unfoundCountry(name)
-    begin
-      countries = parse(Rails.configuration.country_check)
+    countries = parse(Rails.configuration.country_check)
       found = countries.select { |a| a['Slug'] == name }
       return true if found.length == 0 
-    rescue Exception => e
-      {}
     end
-  end
 
   def irrigularStatus(country,y=[],start_date,end_date)
-    begin
-      newArray = []
+    newArray = []
       startDate = Date.parse(start_date)
       endDate =  Date.parse(end_date)
       newElement = {}
@@ -71,39 +49,26 @@ module ApplicationHelper
         newArray << newElement
       end
       newArray 
-    rescue Exception => e
-      {}
     end
-  end
 
   def getData(country, start_date,end_date)
     @countryAllstats = parse("#{Rails.configuration.country_all_data}#{country}")
-
-    begin
-      if country == "china" || country =="australia"
+    if country == "china" || country =="australia"
         irrigularStatus(country, (parse "https://api.covid19api.com/country/#{country}?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"),start_date,end_date)
       else
         parse "https://api.covid19api.com/country/#{country}?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"
-
       end
-    rescue Exception => e
-      {}
     end
-  end
 
   def countries_list
-    begin
-      countriesArray = []
+    countriesArray = []
       list = parse(Rails.configuration.country_list)
       list["Countries"].each do |item|
         country = item['Slug']
         countriesArray << country.gsub("-", " ").capitalize
       end
       countriesArray.sort_by { |country| country }
-    rescue
-      {}
     end
-  end
 
 
   def chartDataTotal(s=[], status)

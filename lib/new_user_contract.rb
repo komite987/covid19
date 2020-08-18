@@ -11,7 +11,7 @@ class NewUserContract < Dry::Validation::Contract
   end
 
   rule(:name) do
-    unless /^(?=.{5,15}$)(?![_. ])(?!.*[_.]{2})[a-zA-Z0-9 ]+(?<![_. ])$/i.match?(value)
+    unless /^(?=.{3,15}$)(?![_. ])(?!.*[_.]{2})[a-zA-Z0-9 ]+(?<![_. ])$/i.match?(value)
       key.failure('has invalid format')
     end
 
