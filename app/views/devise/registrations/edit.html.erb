@@ -45,21 +45,35 @@
           <%= f.label :mobile %> <i class="fa fa-mobile" aria-hidden="true"></i><br />
           <%= f.text_field :mobile, class:"form-control" %>
         </div>
+
+        <% if @user.photo? %>
         <div class="form-group">
-          <%= image_tag("#{@user.photo}" ,class: 'img-thumbnail', width:'300px' ,height:'203px') %>
+          <%= image_tag("#{@user.photo}" ,class: 'img-thumbnail old-photo', width:'300px' ,height:'203px') %>
           <img width=300 height=200 src="#" alt="your image" class="img-thumbnail hidden img_prev"/> <br/>
           <label class="btn btn-primary ">
             Change image <%= f.file_field :photo, id: "avatar-upload", style:'display:none' %>
           </label>
         </div>
-        <% if @user.photo? %>
+
         <div>
-          <%= label_tag :remove_photo do %>
+          <%= label_tag :remove_photo, class: 'old-photo' do %>
           Remove image
           <%= f.check_box :remove_photo %>
           <% end %>
         </div>
+
+        <% else %>
+
+        <div class="form-group">
+          <img width=300 height=200 src="#" alt="your image" class="img-thumbnail hidden img_prev"/> <br/>
+          <label class="btn btn-primary ">
+            Upload image <%= f.file_field :photo, id: "avatar-upload", style:'display:none' %>
+          </label>
+        </div>
         <% end %>
+
+
+
 
       </div>
     </div>

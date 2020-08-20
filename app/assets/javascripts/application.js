@@ -46,6 +46,7 @@ $( document ).on('turbolinks:load', function() {
 
   $("#avatar-upload").change(function(){
     $('.img_prev').removeClass('hidden');
+    $('.old-photo').addClass('hidden');
     readURL(this);
   });
 });

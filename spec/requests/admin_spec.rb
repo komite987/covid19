@@ -142,13 +142,20 @@ RSpec.describe "Admin actions", :type => :request do
         end
       end
       context "with invalid params" do 
-        it "fail to update user" do
+        it "fail to update user with exist email" do
           user1 = create(:user)
           user2 = create(:user)
-          patch "/users/#{user1.id}" , params: {user: {name: 'komaitUpdated', email: "#{user2.email}", phone: user1.phone, mobile: user1.mobile}}
+          patch "/users/#{user1.id}" , params: {user: {name: 'komaitUpdated', email: "#{user2.email}"}}
           expect(response).to render_template('edit')
           expect(response.body).to include("Email has been taken")
         end
+        it "fail to update user when password confirmation doesn't match passowrd" do
+          user1 = create(:user)
+          patch "/users/#{user1.id}" , params: {user: {name: 'Updated', email: "updated@gmail.com", password: '123456', password_confirmation: '123455'}}
+          expect(response).to render_template('edit')
+          expect(response.body).to include("Password confirmation does not match password")
+        end
+
       end
       context "When try to edit another admin" do
         it "fail to update admin" do
@@ -185,8 +192,8 @@ RSpec.describe "Admin actions", :type => :request do
         expect(User.count).to eq(1)
       end
       it "fail to delete another admin" do 
-        user2 = create(:admin)
-        delete "/users/#{user2.id}"
+        user1 = create(:admin)
+        delete "/users/#{user1.id}"
         expect(response).to redirect_to('/users')
         follow_redirect!
         expect(response.body).to include("Can&#39;t delete admin")
@@ -194,10 +201,10 @@ RSpec.describe "Admin actions", :type => :request do
       end
     end
     context "When admin is not login" do
-      it "fail to update user" do
+      it "fail to delete user" do
         logout
-        user = create(:user)
-        login_as(user)
+        user2 = create(:user)
+        login_as(user2)
         new_user = create(:user)
         delete "/users/#{new_user.id}"
         expect(response).to redirect_to('/')

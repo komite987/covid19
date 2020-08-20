@@ -49,8 +49,8 @@
   </div>
   <% if @user.photo? %>
   <div>
-    <%= image_tag("#{@user.photo}" ,class: 'img-thumbnail', width:'300px' ,height:'203px') %>
-    <%= label_tag :remove_photo do %>
+    <%= image_tag("#{@user.photo}" ,class: 'img-thumbnail old-photo', width:'300px' ,height:'203px') %>
+    <%= label_tag :remove_photo, class: 'old-photo' do %>
     Remove image
     <%= f.check_box :remove_photo %>
     <% end %>

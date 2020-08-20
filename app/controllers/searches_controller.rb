@@ -33,8 +33,8 @@ class SearchesController < ApplicationController
       Rails.logger.warn "Start at 22-1-2020 if params is blank"
       start_date = "2020-01-22"
     elsif !params['start_date'].blank? && !valid_date?(params['start_date'])
-      Rails.logger.error e.detail
       e = Errors::BadRequest.new("Start Date invalid")
+      Rails.logger.error e.detail
       ErrorSerializer.new(e)
       flash.now[:error] = "#{e.detail}"
       render 'new' , status: e.status and return 
@@ -63,13 +63,13 @@ class SearchesController < ApplicationController
       render 'new' , status: e.status and return 
     else
       @response = getData(country, start_date, end_date)
-      if !@response.is_a?(Array)
-        e = Errors::StandardError.new(detail: "External Api error")
-        Rails.logger.error e.detail
-        ErrorSerializer.new(e)
-        flash.now[:error] = "#{e.detail}"
-        render 'new' , status: e.status and return 
-      end
+      # if !@response.is_a?(Array)
+      #   e = Errors::StandardError.new(detail: "External Api error")
+      #   Rails.logger.error e.detail
+      #   ErrorSerializer.new(e)
+      #   flash.now[:error] = "#{e.detail}"
+      #   render 'new' , status: e.status and return 
+      # end
     end
     # render json: params
   end

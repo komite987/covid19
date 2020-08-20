@@ -1,7 +1,11 @@
 module ApplicationHelper
 
   def parse(url)
-    JSON.parse(RestClient.get(url))
+    # begin
+      JSON.parse(RestClient.get(url))
+    # rescue Exception => e
+    #   retry
+    # end
   end
 
   def removeColony(v=[])
@@ -18,57 +22,57 @@ module ApplicationHelper
 
   def unfoundCountry(name)
     countries = parse(Rails.configuration.country_check)
-      found = countries.select { |a| a['Slug'] == name }
-      return true if found.length == 0 
-    end
+    found = countries.select { |a| a['Slug'] == name }
+    return true if found.length == 0 
+  end
 
   def irrigularStatus(country,y=[],start_date,end_date)
     newArray = []
-      startDate = Date.parse(start_date)
-      endDate =  Date.parse(end_date)
-      newElement = {}
-      for date in (startDate..endDate) do
-       z = y.select { |a| a['Date'].include? date.strftime('%Y-%m-%d') }
-       dayCon = dayDeth = dayRec = dayAct = 0
-       z.each do |total| 
-         dayCon += total['Confirmed'] 
-         dayDeth += total['Deaths'] 
-         dayRec += total['Recovered'] 
-         dayAct += total['Active']
-       end
-       newElement = {"Country" => country,
-        "CountryCode"=> "",
-        "Province"=> "",
-        "City"=> "",
-        "CityCode"=> "",
-        "Confirmed"=> dayCon,
-        "Deaths"=> dayDeth,
-        "Recovered"=> dayRec,
-        "Active"=> dayAct,
-        "Date"=> "#{date}T00:00:00Z" }
-        newArray << newElement
-      end
-      newArray 
+    startDate = Date.parse(start_date)
+    endDate =  Date.parse(end_date)
+    newElement = {}
+    for date in (startDate..endDate) do
+     z = y.select { |a| a['Date'].include? date.strftime('%Y-%m-%d') }
+     dayCon = dayDeth = dayRec = dayAct = 0
+     z.each do |total| 
+       dayCon += total['Confirmed'] 
+       dayDeth += total['Deaths'] 
+       dayRec += total['Recovered'] 
+       dayAct += total['Active']
+     end
+     newElement = {"Country" => country,
+      "CountryCode"=> "",
+      "Province"=> "",
+      "City"=> "",
+      "CityCode"=> "",
+      "Confirmed"=> dayCon,
+      "Deaths"=> dayDeth,
+      "Recovered"=> dayRec,
+      "Active"=> dayAct,
+      "Date"=> "#{date}T00:00:00Z" }
+      newArray << newElement
     end
+    newArray 
+  end
 
   def getData(country, start_date,end_date)
     @countryAllstats = parse("#{Rails.configuration.country_all_data}#{country}")
     if country == "china" || country =="australia"
-        irrigularStatus(country, (parse "https://api.covid19api.com/country/#{country}?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"),start_date,end_date)
-      else
-        parse "https://api.covid19api.com/country/#{country}?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"
-      end
+      irrigularStatus(country, (parse "https://api.covid19api.com/country/#{country}?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"),start_date,end_date)
+    else
+      parse "https://api.covid19api.com/country/#{country}?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"
     end
+  end
 
   def countries_list
     countriesArray = []
-      list = parse(Rails.configuration.country_list)
-      list["Countries"].each do |item|
-        country = item['Slug']
-        countriesArray << country.gsub("-", " ").capitalize
-      end
-      countriesArray.sort_by { |country| country }
+    list = parse(Rails.configuration.country_list)
+    list["Countries"].each do |item|
+      country = item['Slug']
+      countriesArray << country.gsub("-", " ").capitalize
     end
+    countriesArray.sort_by { |country| country }
+  end
 
 
   def chartDataTotal(s=[], status)
