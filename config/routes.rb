@@ -7,4 +7,6 @@ Rails.application.routes.draw do
   post '/search', to: 'searches#show'
 
   get '/404', to: "errors#not_found"
+  get "/500", to: "errors#internal_error"
+
 end

@@ -1,11 +1,7 @@
 module ApplicationHelper
 
   def parse(url)
-    # begin
-      JSON.parse(RestClient.get(url))
-    # rescue Exception => e
-    #   retry
-    # end
+    JSON.parse(RestClient.get(url))
   end
 
   def removeColony(v=[])
@@ -65,13 +61,17 @@ module ApplicationHelper
   end
 
   def countries_list
-    countriesArray = []
-    list = parse(Rails.configuration.country_list)
-    list["Countries"].each do |item|
-      country = item['Slug']
-      countriesArray << country.gsub("-", " ").capitalize
+    begin
+      countriesArray = []
+      list = parse(Rails.configuration.country_list)
+      list["Countries"].each do |item|
+        country = item['Slug']
+        countriesArray << country.gsub("-", " ").capitalize
+      end
+      countriesArray.sort_by { |country| country }
+    rescue Exception => e
+      e  = ["External api error"]
     end
-    countriesArray.sort_by { |country| country }
   end
 
 
@@ -127,7 +127,7 @@ module ApplicationHelper
   end
 
   def total_stats(s=[], stat)
-    s.sort_by { |item| item[stat] }.reverse      
+    s.sort_by { |item| item[stat] }.reverse   
   end
 
   def fix_number(num)
