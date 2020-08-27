@@ -3,11 +3,14 @@
 @import url('https://fonts.googleapis.com/css?family=Arima+Madurai:100,200,300,400,500,700,800,900');
 @import "foundation";
 @import "home";
+@import "searches";
+
 
 body {
     font-size: 1.15em;
     font-family: 'Arima Madurai', cursive;
-    background-color: #fafaf7;
+    background-color: #e8ebea;
+    padding-bottom: 40px;
 }
 
 #container1 {
@@ -263,29 +266,7 @@ pre.prettyprint{
     font-size: 16px;
 }
 
-.navbar-brand-logo{
-    padding: 0;
-}
-.navbar-brand-logo .logo{
-    border: 1px solid #333333;
-    border-radius: 50%;
-    float: left;
-    overflow: hidden;
-    width: 60px;
-}
-.navbar .navbar-brand-logo .brand{
-    color: #FFFFFF;
-    float: left;
-    font-size: 18px;
-    font-weight: 400;
-    line-height: 20px;
-    margin-left: 10px;
-    margin-top: 10px;
-    width: 60px;
-}
-.navbar-default .navbar-brand-logo .brand{
-    color: #555;
-}
+
 
 
 /*       Fix bug for IE      */
@@ -368,9 +349,11 @@ pre.prettyprint{
 }
 
 .admin-form .form-group .form-control  {
-    width: 70%;
     display: inline-block;
+    width: 70%;
 }
+
+
 
 .fa-check-circle {
     font-size: 1.5em;
@@ -389,4 +372,45 @@ pre.prettyprint{
 
 }
 
+.bg-custom {
+    background-image: linear-gradient(15deg, #d5e6f7 0%, #a9bcc6 100%);
+}
 
+.navbar-brand {
+    font-size: 1.7em;
+}
+
+.nav-item {
+    font-size: 1em;
+}
+
+.alert-info, .alert-danger, .alert-success {
+    margin-top: 15px;
+    text-align: left;
+}
+
+.nav-link {
+    color: black !important;
+    font-weight: bold;
+    
+}
+.nav-link:hover {
+    background-color: #5389a6 !important;
+    color: white !important;
+}
+
+.nav-button {
+    background-color: #5389a6;
+    color: white;
+    padding: 0.5em 1em;
+    font-size: 1em;
+
+    &:hover {
+        color: white;
+        font-weight: 600;
+    }
+}
+
+.fade {
+    opacity: 1 !important;
+}

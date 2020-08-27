@@ -2,7 +2,7 @@
 <%= render 'errors', obj: @errors %>
 <% end %>
 <%= form_with(model: @user, local:true) do |f| %>
-<div class="col-lg-8 offset-lg-2 admin-form">
+<div class="col-lg-8 offset-lg-3 admin-form">
   <div class="form-group ">
     <%= f.label :name %><br />
     <%= f.text_field :name, class: "form-control", placeholder: "Enter name", autofocus: true, id: 'name', oninput: 'checkName()' %> 
@@ -67,7 +67,10 @@
 
 
   <div class="form-group row">
-    <%= f.submit(@user.new_record? ? 'Add User' : 'Update user account', class: 'btn btn-primary', id: 'submit') %>
+    <div>
+      <%= f.submit(@user.new_record? ? 'Add User' : 'Update user account', class: 'btn btn-primary', id: 'submit') %>
+
+    </div>
   </div>
 </div>
 <% end %>

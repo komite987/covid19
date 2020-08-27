@@ -10,12 +10,18 @@ class SearchesController < ApplicationController
       e = Errors::StandardError.new(detail: "External Api error")
       ErrorSerializer.new(e)
       Rails.logger.error e.detail
-      render 'errors/_internal_error'
+      render 'errors/internal_error'
     end
   end
 
   def new
   end
+
+  def testing
+    @currency = get_currency('brazil')
+    @currencyExchange = JSON.parse RestClient.get "https://api.exchangeratesapi.io/history?start_at=2020-8-1&end_at=2020-8-10&symbols=#{@currency}&base=USD" 
+  end
+
 
   def show
 
@@ -71,6 +77,14 @@ class SearchesController < ApplicationController
     else
       begin
         @response = getData(country, start_date, end_date)
+        @currency = get_currency(country)
+        currency_start_date = (Date.parse(start_date).tomorrow).strftime('%Y-%m-%d')
+        @symbol = get_symbol(country)
+        begin
+          @currencyExchange = JSON.parse RestClient.get "https://api.exchangeratesapi.io/history?start_at=#{currency_start_date}&end_at=#{end_date}&symbols=#{@currency}&base=USD" 
+        rescue Exception => e
+          @currency = "No exchange info for this country"
+        end
       rescue Exception => e
         e = Errors::StandardError.new(detail: "External Api error")
         ErrorSerializer.new(e)

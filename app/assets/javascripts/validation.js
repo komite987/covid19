@@ -4,14 +4,14 @@ function checkName() {
   var nameRegex = /^(?![_. ])(?!.*[_.]{2})[a-zA-Z0-9 ]+(?<![_. ])$/
   var validName = name.value.match(nameRegex);
 
-  if(validName != null && name.value.length < 5  ){
+  if(validName != null && name.value.length < 3  ){
     nameOutput.innerHTML = "Too short";
     name.style.backgroundColor= '#EF5761'
     name.style.color= '#FFFFFF'
     name.style.border= '1px solid #ced4da';
     document.getElementById("submit").setAttribute("disabled", "true")
   }
-  else if (validName != null && name.value.length >= 5 && name.value.length <= 15) {
+  else if (validName != null && name.value.length >= 3 && name.value.length <= 15) {
     name.style.backgroundColor= 'white';
     name.style.color= '#559E54';
     name.style.border= '3px solid #559E54';
@@ -26,7 +26,7 @@ function checkName() {
     document.getElementById("submit").setAttribute("disabled", "true")
   }
   else if (validName == null) {
-    nameOutput.innerHTML = "letters and numbers only";
+    nameOutput.innerHTML = "letters and numbers";
     name.style.backgroundColor= '#EF5761'
     name.style.color= '#FFFFFF'
     name.style.border= '1px solid #ced4da';
@@ -83,7 +83,7 @@ function checkPasswordConfirm() {
   var passwordConfirmOutput = document.getElementById("passwordConfirmOutput");
 
   if(passwordConfirm.value !== password.value){
-    passwordConfirmOutput.innerHTML = "Doesn't match password";
+    passwordConfirmOutput.innerHTML = "Doesn't match";
     passwordConfirm.style.backgroundColor= '#EF5761'
     passwordConfirm.style.color= '#FFFFFF'
     passwordConfirm.style.border= '1px solid #ced4da';
@@ -143,3 +143,4 @@ function checkMobile() {
   }
 
 }
+

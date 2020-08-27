@@ -65,5 +65,22 @@ $( document ).on('turbolinks:load', function() {
         el: '.blog-slider__pagination',
         clickable: true,
       }
-    });});
+    });
+});
 
+$( document ).on('turbolinks:load', function() {
+  var input = $("#search-option").val();
+  if(input == "External api error") {
+    $('#search-button').attr('disabled','disabled');
+    $('#search-input').val("External api error");
+    $('#search-input').attr('disabled','disabled');
+  }
+  else {
+   $('#search-input').val = '';
+   $('#search-input').attr('enabled','enabled');
+ }
+});
+
+$().ready(function(){
+  $('.fade').fadeOut(4000, 'swing');
+});

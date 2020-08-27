@@ -1,0 +1,54 @@
+<% if @currency != "No exchange info for this country" %>
+
+    <script>
+
+         Highcharts.chart('container3', {
+
+            title: {
+                text: 'Exhange statistics for <%= @response[0]['Country'].capitalize %> <%= @symbol %>'
+            },
+
+            xAxis: {
+              labels: {
+                enabled: false
+              }
+            },
+
+            yAxis: {
+                title: {
+                    text: 'Rates'
+                }
+            },
+
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
+            },
+
+            series: [{
+                name: '1$ = ',
+                data: <%= currencyChartData(sort_currency_rate(@currencyExchange['rates']), @currency) %>
+            }],
+
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom'
+                        }
+                    }
+                }]
+            }
+
+        });
+
+
+    </script>
+<% end %>
+

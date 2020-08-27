@@ -74,6 +74,67 @@ module ApplicationHelper
     end
   end
 
+  def get_currency(country)
+    if country == "korea-south"
+      country = "Korea (Republic of)"
+    else
+      country
+    end
+    begin
+      currency = Restcountry::Country.find_by_name("#{country}".gsub('-', ' ')).currencies[0]['code']
+
+    rescue Exception => e
+      currency = "Not found"
+    end
+    currency
+  end
+
+  def get_symbol(country)
+    if country == "korea-south"
+      country = "Korea (Republic of)"
+    else
+      country
+    end
+    begin
+      symbol = Restcountry::Country.find_by_name("#{country}".gsub('-', ' ')).currencies[0]['symbol']
+    rescue Exception => e
+      symbol = "Not found"
+    end
+    symbol
+  end
+
+  def sort_currency_rate(s={})
+    s.sort_by { |date| Date.parse(date.first) }
+  end
+
+  def currencyChartData(s={}, currency)
+    currencyArray = []
+    s.each do |x|
+      rate = x[1][currency]
+      currencyArray << rate
+    end
+    currencyArray
+  end
+
+  def currencyChartDate(s={})
+    currencyDates = []
+    s.each do |x|
+      date = x.first
+      currencyDates << date
+    end
+    currencyDates
+  end
+
+  # def currencyPairs(s=[], v=[])
+  #   pairs = []
+  #   (0...s.length).each do |i|
+  #     item = [v[i], s[i]]
+  #     pairs << item
+  #   end
+  #   pairs
+  # end
+
+
 
   def chartDataTotal(s=[], status)
     dayArray = []
@@ -114,7 +175,7 @@ module ApplicationHelper
 
   def flash_messages(opts = {})
     flash.each do |msg_type, message|
-      concat(content_tag(:div, message, class: "alert #{bootstrap_class_for(msg_type)}", role: "alert") do 
+      concat(content_tag(:div, message, class: "fade alert #{bootstrap_class_for(msg_type)}", role: "alert") do 
         concat content_tag(:button, 'x', class: "close", data: { dismiss: 'alert' })
         concat message 
       end)
