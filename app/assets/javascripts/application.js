@@ -81,6 +81,7 @@ $( document ).on('turbolinks:load', function() {
  }
 });
 
+
 $().ready(function(){
-  $('.fade').fadeOut(4000, 'swing');
+  $('.fade').fadeOut(6000, 'swing');
 });

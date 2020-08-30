@@ -29,7 +29,7 @@ RSpec.describe UsersController do
       it "returns a success response" do
         get :new
         expect(response).to have_http_status(:ok)
-        expect(response.body).to include('<h1 class="text-center">Add new user </h1>') 
+        expect(response.body).to include('<h2 class="text-center">Add new user </h2>') 
       end
     end
 

@@ -5,13 +5,19 @@
          Highcharts.chart('container3', {
 
             title: {
-                text: 'Exhange statistics for <%= @response[0]['Country'].capitalize %> <%= @symbol %>'
+                text: <% if currencyChartData(sort_currency_rate(@currencyExchange['rates']), @currency).blank? %>
+                        'No exhange for weekends'
+                      <% else %>
+                        'Exhange statistics for <%= @response[0]['Country'].capitalize %> <%= @symbol %>'
+                      <% end %>
             },
 
             xAxis: {
               labels: {
-                enabled: false
-              }
+                enabled: true
+              },
+              categories: <%= raw currencyChartDate(sort_currency_rate(@currencyExchange['rates'])) %>
+
             },
 
             yAxis: {

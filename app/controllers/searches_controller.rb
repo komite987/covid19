@@ -17,10 +17,9 @@ class SearchesController < ApplicationController
   def new
   end
 
-  def testing
-    @currency = get_currency('brazil')
-    @currencyExchange = JSON.parse RestClient.get "https://api.exchangeratesapi.io/history?start_at=2020-8-1&end_at=2020-8-10&symbols=#{@currency}&base=USD" 
-  end
+  # def testing
+  #   render json: 
+  # end
 
 
   def show
@@ -89,10 +88,9 @@ class SearchesController < ApplicationController
         e = Errors::StandardError.new(detail: "External Api error")
         ErrorSerializer.new(e)
         Rails.logger.error e.detail
-        render 'errors/_internal_error'
+        render 'errors/internal_error'
       end
     end
-    # render json: params
   end
 
 end

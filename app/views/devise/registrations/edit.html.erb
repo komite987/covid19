@@ -50,7 +50,7 @@
         <div class="form-group">
           <%= image_tag("#{@user.photo}" ,class: 'img-thumbnail old-photo', width:'300px' ,height:'203px') %>
           <img width=300 height=200 src="#" alt="your image" class="img-thumbnail hidden img_prev"/> <br/>
-          <label class="btn btn-primary ">
+          <label class="btn btn-outline-primary ">
             Change image <%= f.file_field :photo, id: "avatar-upload", style:'display:none' %>
           </label>
         </div>
@@ -80,7 +80,7 @@
     <div class="row">
       <div class="col-md-2">
         <div class="form-group">
-          <%= f.submit "Update", class: "btn btn-primary btn-block" %>
+          <%= f.submit "Update", class: "btn btn1 btn-block" %>
         </div>
         <% end %>
       </div>

@@ -14,7 +14,7 @@ RSpec.describe "Search request", :type => :request do
       post '/search' , params: @search_params
       expect(response).to render_template('searches/show')
       expect(response.body).to include("Syria")
-      expect(response.body).to include("<h5 class=\"card-header\"> All statistics</h5>")
+      expect(response.body).to include("All Statistics")
       expect(response.body).to include("<h4 class=\"card-title\">2020-08-01</h4>")
       expect(response.body).not_to include("<h4 class=\"card-title\">2020-08-02</h4>")
     end

@@ -62,7 +62,7 @@
     <label class="btn btn-primary ">
       <%= (@user.new_record? ? 'Upload image' : 'Change image')%> <%= f.file_field :photo, id: "avatar-upload", style:'display:none' %>
     </label>
-    <%= f.hidden_field :avatar_cache %>
+    <%#= f.hidden_field :avatar_cache %>
   </div>
 
 
