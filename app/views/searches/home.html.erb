@@ -12,8 +12,8 @@
           <ul class="blog-slider__text">
             <li><b>New Confirmed:</b> <%= fix_number(@world_stats["Global"]["NewConfirmed"]) %></li>
             <li><b>Total Confirmed:</b> <%= fix_number(@world_stats["Global"]["TotalConfirmed"]) %></li>
-            <li><b>New Death:</b> <%= fix_number(@world_stats["Global"]["NewDeaths"]) %></li>
-            <li><b>Total Death:</b> <%= fix_number(@world_stats["Global"]["TotalDeaths"]) %></li>
+            <li><b>New Deaths:</b> <%= fix_number(@world_stats["Global"]["NewDeaths"]) %></li>
+            <li><b>Total Deaths:</b> <%= fix_number(@world_stats["Global"]["TotalDeaths"]) %></li>
             <li><b>New Recovered:</b> <%= fix_number(@world_stats["Global"]["NewRecovered"]) %></li>
             <li><b>Total Recovered:</b> <%= fix_number(@world_stats["Global"]["TotalRecovered"]) %></li>
           </ul>
@@ -38,7 +38,7 @@
           <%= image_tag 'death.jpg', alt: '' %>
         </div>
         <div class="blog-slider__content">
-          <h2 class="blog-slider__code">Top Death</h2>
+          <h2 class="blog-slider__code">Top Deaths</h2>
           <ul class="blog-slider__text">
             <% @top_death.each do |country|  %>
             <li><%= "#{country["Country"]}: #{fix_number(country["TotalDeaths"])}" %></li>

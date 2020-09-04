@@ -44,7 +44,7 @@ function checkEmail() {
   var email = document.getElementById("email");
   var emailOutput = document.getElementById("emailOutput");
   var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/i;
-  var validEmail = email.value.match(emailRegex);
+  var validEmail = email.value.trim().match(emailRegex);
 
   if(validEmail){
     email.style.backgroundColor= '#FFFFFF'
@@ -140,7 +140,7 @@ function checkPhone() {
   var phone = document.getElementById("phone");
   var phoneOutput = document.getElementById("phoneOutput");
   var phoneRegex = /^\(?([0-9]{5})?\)?[-.●]?([0-9]{3,4})[-.●]?([0-9]{6,7})$/i;
-  var validPhone = phone.value.match(phoneRegex);
+  var validPhone = phone.value.trim().match(phoneRegex);
 
   if(validPhone != null){
     phone.style.backgroundColor= '#FFFFFF'
@@ -169,7 +169,7 @@ function checkMobile() {
   var mobile = document.getElementById("mobile");
   var mobileOutput = document.getElementById("mobileOutput");
   var mobileRegex = /^\(?([0-9]{5})?\)?[-.●]?([0-9]{3,4})[-.●]?([0-9]{6,7})$/i;
-  var validMobile = mobile.value.match(mobileRegex);
+  var validMobile = mobile.value.trim().match(mobileRegex);
 
   if(validMobile != null){
     mobile.style.backgroundColor= '#FFFFFF'

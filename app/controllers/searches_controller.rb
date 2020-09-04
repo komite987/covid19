@@ -21,9 +21,12 @@ class SearchesController < ApplicationController
   #   render json: 
   # end
 
+  def about
+    
+  end
+
 
   def show
-
     if params['country'].blank?
       e = Errors::BadRequest.new("Country can't be blank")
       Rails.logger.error e.detail

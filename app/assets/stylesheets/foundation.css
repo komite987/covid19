@@ -19,10 +19,10 @@ body {
   font-style: normal;
   line-height: 1;
   position: relative;
-  cursor: default; }
+   }
 
 a:hover {
-  cursor: pointer; }
+  cursor: pointer !important; }
 
 a:focus {
   outline: none; }

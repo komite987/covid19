@@ -12,7 +12,7 @@
 puts "Admin user created"
 
 
-5.times do |user|
+3.times do |user|
   User.create!(
     name: "Komait #{user+1}",
     email: "komait#{user+1}@gmail.com",

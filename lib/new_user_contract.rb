@@ -19,7 +19,7 @@ class NewUserContract < Dry::Validation::Contract
 
 
   rule(:email) do
-    unless /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/i.match?(value)
+    unless /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/i.match?(value.strip)
       key.failure('has invalid format')
     end
     if User.find_by_email(value)
@@ -29,13 +29,13 @@ class NewUserContract < Dry::Validation::Contract
   end
 
   rule(:phone) do
-    unless /^\(?([0-9]{5})?\)?[-.●]?([0-9]{3,4})[-.●]?([0-9]{6,7})$/i.match?(value)
+    unless /^\(?([0-9]{5})?\)?[-.●]?([0-9]{3,4})[-.●]?([0-9]{6,7})$/i.match?(value.strip)
       key.failure('has invalid format')
     end
   end
   
     rule(:mobile) do
-    unless /^\(?([0-9]{5})?\)?[-.●]?([0-9]{3,4})[-.●]?([0-9]{6,7})$/i.match?(value)
+    unless /^\(?([0-9]{5})?\)?[-.●]?([0-9]{3,4})[-.●]?([0-9]{6,7})$/i.match?(value.strip)
       key.failure('has invalid format')
     end
   end

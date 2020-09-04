@@ -22,8 +22,6 @@ class UsersController < ApplicationController
     end
   end
 
-
-
   def index
     @users = User.all
   end
@@ -36,13 +34,12 @@ class UsersController < ApplicationController
       flash[:error] = "Can't edit admin"
       redirect_to users_path
     end
-
   end
 
   def update
-    # render json: request.params[:user].reject! {|k,v| v.blank?}
+    update_params = (request.params[:user].delete_if {|key, value| value.blank? })
     contract = EditUserContract.new
-    validation = contract.call(request.params[:user])
+    validation = contract.call(update_params)
     if validation.success?
       if (request.params[:user][:email] != @user.email && User.find_by_email(request.params[:user][:email]))
         e = Errors::BadRequest.new("Email has been taken")
@@ -58,7 +55,7 @@ class UsersController < ApplicationController
         flash.now[:error] = "#{e.detail}"
         render 'edit' , status: e.status and return 
       end
-      @user.update(user_params.delete_if {|key, value| value.blank? })                      
+      @user.update(update_params)                      
       flash[:success] = "Update completed"
       redirect_to users_path
     else
@@ -79,17 +76,11 @@ class UsersController < ApplicationController
   end
 
 
-
   private
 
   def user_params
     params.require(:user).permit(:name, :email, :address, :phone, :mobile, :photo, :remove_photo, :password, :password_confirmation)
   end
-
-  # def update_params
-  #   params.require(:user).permit(:name, :email, :address, :phone, :mobile, :photo, :remove_photo, :password, :password_confirmation).delete_if {|key, value| value.blank? }
-  # end
-
 
   def set_user
     @user = User.find(params[:id])

@@ -3,129 +3,119 @@
    <h1 class=" col-md-8"> <%= @response[0]['Country'].capitalize %></h1>
    <br>
    <p class="col-md-12"><strong> Data and Charts begin from the first case recorded (all other data will be deprecated)
-      </strong>
-   </p>
+   </strong>
+</p>
 </div>
 <br>
-<div class="row stat-info">
-   <div class="container">
-      <div class="row flip-boxes">
-         <div class="col-md-6 flip-box">
-            <div class="front">
-               <div class="content text-center">
-                  All Statistics
-               </div>
-            </div>
-            <div class="back">
-               <div class="content">
-                  <p>Total Cases: <%= fix_number(@countryAllstats.last['Confirmed']) %></p>
-                  <p>Deaths: <%= fix_number(@countryAllstats.last['Deaths']) %></p>
-                  <p>Recovered: <%= fix_number(@countryAllstats.last['Recovered']) %></p>
-                  <p>Active: <%= fix_number(@countryAllstats.last['Active']) %></p>
-               </div>
-            </div>
-         </div>
-         <div class="col-md-6 flip-box">
-            <div class="front" >
-               <div class="content" >
-                  Statistics in selected period
-               </div>
-            </div>
-            <div class="back">
-               <div class="content">
-                  <p>New cases: <%= fix_number(periodStatus(removeColony(@response),'Confirmed')) %></p>
-                  <p> Deaths: <%= fix_number(periodStatus(removeColony(@response),'Deaths')) %></p>
-                  <p>Recovered: <%= fix_number(periodStatus(removeColony(@response),'Recovered')) %></p>
-               </div>
-            </div>
+<div class="row text-center">
+   <div class="col-md-6">
+      <div class="card border-info">
+         <div class="card-header text-white bg-info">All Statistics</div>
+         <div class="card-body">
+            <p>Total Cases: <%= fix_number(@countryAllstats.last['Confirmed']) %></p>
+            <p>Deaths: <%= fix_number(@countryAllstats.last['Deaths']) %></p>
+            <p>Recovered: <%= fix_number(@countryAllstats.last['Recovered']) %></p>
+            <p>Active: <%= fix_number(@countryAllstats.last['Active']) %></p>
          </div>
       </div>
+
+   </div>
+   <div class="col-md-6">
+      <div class="card border-info">
+         <div class="card-header text-white bg-info">Statistics in selected period</div>
+         <div class="card-body">
+            <p>New cases: <%= fix_number(periodStatus(removeColony(@response),'Confirmed')) %></p>
+            <p> Deaths: <%= fix_number(periodStatus(removeColony(@response),'Deaths')) %></p>
+            <p>Recovered: <%= fix_number(periodStatus(removeColony(@response),'Recovered')) %></p>
+         </div>
+      </div>
+
    </div>
 </div>
 <% if (@response[0]['Confirmed'] && @response.last['Confirmed']) > 0 %>
-   <div class="row">
-      <div class="col-md-6">
-         <figure class="highcharts-figure">
-            <div id="container">
-            </div>
-         </figure>
-      </div>
-      <div class="col-md-6">
-         <figure class="highcharts-figure">
-            <div id="container2">
-            </div>
-         </figure>
-      </div>
+<div class="row">
+   <div class="col-md-6">
+      <figure class="highcharts-figure">
+         <div id="container">
+         </div>
+      </figure>
    </div>
-   <% else %>
-   <div class="row">
-      <h3 class="container text-center"><strong> There is no Cases in this period </strong></h3>
+   <div class="col-md-6">
+      <figure class="highcharts-figure">
+         <div id="container2">
+         </div>
+      </figure>
    </div>
+</div>
+<% else %>
+<div class="row">
+   <h3 class="container text-center"><strong> There is no Cases in this period </strong></h3>
+</div>
 <br>
 <% end %>
 <% if @currency == "No exchange info for this country" %>
-   <div class="row">
-      <h3 class="container text-center"><strong> No exchange info for this country </strong></h3>
+<div class="row">
+   <h3 class="container text-center"><strong> No exchange info for this country </strong></h3>
+</div>
+<br>
+<% else %>
+<div class="row">
+   <div class="col-md-12">
+      <figure class="highcharts-figure">
+         <div id="container3">
+         </div>
+      </figure>
    </div>
-   <br>
-   <% else %>
-   <div class="row">
-      <div class="col-md-12">
-         <figure class="highcharts-figure">
-            <div id="container3">
-            </div>
-         </figure>
-      </div>
-   </div>
+</div>
 <% end %>
 <div class="row">
    <% removeColony(@response).each_with_index do |day, index| %>
-      <% if index != 0 && day['Confirmed'] != 0 %>
-         <div class="col-md-4 col-sm-6 col-lg-3 text-center">
-            <div class="card-container manual-flip">
-               <div class="card">
-                  <div class="front">
-                     <div class="header">
-                        <h4 class="card-title"><%= day['Date'].gsub("T00:00:00Z", "")%></h4>
-                     </div>
-                     <div class="content">
-                        <div class="main">
-                           <p class="card-text">New Cases: <%= fix_number(dayStatus(removeColony(@response),index,'Confirmed'))%>
-                           </p>
-                           <p class="card-text">New Deaths: <%= fix_number(dayStatus(removeColony(@response),index,'Deaths'))%>
-                           </p>
-                           <p class="card-text">New Recovered: <%= fix_number(dayStatus(removeColony(@response),index,'Recovered'))%>
-                           </p>
-                        </div>
-                        <div class="footer">
-                           <button class="btn btn-simple" onclick="rotateCard(this)">
-                           <i class="fa fa-mail-forward"></i> Stats until this day
-                           </button>
-                        </div>
-                     </div>
+   <% if index != 0 && day['Confirmed'] != 0 %>
+   <div class="col-md-4 col-sm-6 col-lg-3 text-center">
+      <div class="card-container manual-flip">
+         <div class="card">
+            <div class="front">
+               <div class="header">
+                  <h4 class="card-title"><%= day['Date'].gsub("T00:00:00Z", "")%></h4>
+               </div>
+               <div class="content">
+                  <div class="main">
+                     <p class="card-text">New Cases: <%= fix_number(dayStatus(removeColony(@response),index,'Confirmed'))%>
+                     </p>
+                     <p class="card-text">New Deaths: <%= fix_number(dayStatus(removeColony(@response),index,'Deaths'))%>
+                     </p>
+                     <p class="card-text">New Recovered: <%= fix_number(dayStatus(removeColony(@response),index,'Recovered'))%>
+                     </p>
                   </div>
-                  <div class="back">
-                     <div class="header">
-                        <h4 class="card-title"><%= day['Date'].gsub("T00:00:00Z", "")%></h4>
-                     </div>
-                     <div class="content">
-                        <div class="main">
-                           <p class="card-text">Total Cases: <%= fix_number(day['Confirmed']) %> </p>
-                           <p class="card-text">Deaths: <%=  fix_number(day['Deaths']) %> </p>
-                           <p class="card-text">Recovered: <%=  fix_number(day['Recovered']) %></p>
-                           <p class="card-text">Active: <%=  fix_number(day['Active']) %> </p>
-                        </div>
-                     </div>
-                     <div class="footer">
-                        <button class="btn btn-simple"  onclick="rotateCard(this)">
-                        <i class="fa fa-reply"></i> Back
-                        </button>
-                     </div>
+                  <div class="footer">
+                     <button class="btn btn-simple" onclick="rotateCard(this)">
+                        <i class="fa fa-mail-forward"></i> Stats until this day
+                     </button>
                   </div>
                </div>
             </div>
+            <div class="back">
+               <div class="header">
+                  <h4 class="card-title"><%= day['Date'].gsub("T00:00:00Z", "")%></h4>
+               </div>
+               <div class="content">
+                  <div class="main">
+                     <p class="card-text">Total Cases: <%= fix_number(day['Confirmed']) %> </p>
+                     <p class="card-text">Deaths: <%=  fix_number(day['Deaths']) %> </p>
+                     <p class="card-text">Recovered: <%=  fix_number(day['Recovered']) %></p>
+                     <p class="card-text">Active: <%=  fix_number(day['Active']) %> </p>
+                  </div>
+               </div>
+               <div class="footer">
+                  <button class="btn btn-simple"  onclick="rotateCard(this)">
+                     <i class="fa fa-reply"></i> Back
+                  </button>
+               </div>
+            </div>
          </div>
-      <% end %>
+      </div>
+   </div>
+   <% end %>
    <% end %>
 </div>
 <%= render 'chart'%>

@@ -10,35 +10,28 @@ class EditUserContract < Dry::Validation::Contract
     optional(:photo)
   end
 
-  rule(:name) do
-    if !value.blank?
-      unless /^(?=.{3,15}$)(?![_. ])(?!.*[_.]{2})[a-zA-Z0-9 ]+(?<![_. ])$/i.match?(value)
+  if params.blank?
+
+    rule(:name) do
+      unless /^(?=.{3,15}$)(?![_. ])(?!.*[_.]{2})[a-zA-Z0-9 ]+(?<![_. ])$/i.match?(value.strip!)
         key.failure('has invalid format')
       end
     end
-  end
 
-
-  rule(:email) do
-    if !value.blank? 
-      unless /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i.match?(value)
+    rule(:email) do
+      unless /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i.match?(value.strip)
         key.failure('has invalid format')
       end
     end
-  end
 
-
-  rule(:phone) do
-    if !value.blank? 
-      unless /^\(?([0-9]{5})?\)?[-.●]?([0-9]{3,4})[-.●]?([0-9]{6,7})$/i.match?(value)
+    rule(:phone) do
+      unless /^\(?([0-9]{5})?\)?[-.●]?([0-9]{3,4})[-.●]?([0-9]{6,7})$/i.match?(value.strip)
         key.failure('has invalid format')
       end
     end
-  end
-  
-  rule(:mobile) do
-    if !value.blank? 
-      unless /^\(?([0-9]{5})?\)?[-.●]?([0-9]{3,4})[-.●]?([0-9]{6,7})$/i.match?(value)
+    
+    rule(:mobile) do
+      unless /^\(?([0-9]{5})?\)?[-.●]?([0-9]{3,4})[-.●]?([0-9]{6,7})$/i.match?(value.strip)
         key.failure('has invalid format')
       end
     end

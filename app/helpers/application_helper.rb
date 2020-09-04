@@ -53,7 +53,8 @@ module ApplicationHelper
 
   def getData(country, start_date,end_date)
     @countryAllstats = parse("#{Rails.configuration.country_all_data}#{country}")
-    if country == "china" || country =="australia"
+    # if country == "china" || country =="australia" || country =="canada"
+    if ['china', 'australia', 'canada'].include? country
       irrigularStatus(country, (parse "https://api.covid19api.com/country/#{country}?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"),start_date,end_date)
     else
       parse "https://api.covid19api.com/country/#{country}?from=#{start_date}T00:00:00Z&to=#{end_date}T00:00:00Z"
