@@ -1,8 +1,8 @@
   User.create!(
     name: "Komait",
     email: "komait@gmail.com",
-    password: "123456",
-    password_confirmation: "123456",
+    password: "#s361880",
+    password_confirmation: "#s361880",
     phone: "0418800880",
     mobile: "0988333222",
     address: "Latakia-Jableh",
