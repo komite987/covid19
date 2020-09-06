@@ -221,7 +221,8 @@
    .title {
     text-transform: uppercase;
     margin: 45px !important;
-    font-size: 1.6em !important;
+    font-size: 1.7em !important;
+    line-height: 1.2em !important;
   }
 
 /* ==========================================================================
@@ -240,8 +241,8 @@
   }
 
   .card-2 .card-heading {
-/*    background: url("form.jpg") top left/cover no-repeat;
-*/    width: 29.1%;
+    background: url("form.jpg") top left/cover no-repeat;
+    width: 29.1%;
     display: table-cell;
   }
 
