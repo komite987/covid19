@@ -31,7 +31,6 @@ gem "font-awesome-rails"
 gem 'restcountry'
 gem 'devise', '~> 4.7', '>= 4.7.2'
 gem 'hirb', '~> 0.7.3'
-gem 'dotenv', '~> 2.7', '>= 2.7.5'
 gem 'carrierwave', '~> 2.1'
 gem 'mini_magick', '~> 4.10', '>= 4.10.1'
 gem 'dry-validation', '~> 1.5', '>= 1.5.1'
@@ -40,7 +39,8 @@ gem 'rails-controller-testing'
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
-
+gem 'dotenv-rails' , :groups => [:development, :test]
+gem 'twitter', '~> 7.0'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

@@ -1,5 +1,5 @@
 class SearchesController < ApplicationController
-  skip_before_action :authenticate_user!, except:[:show, :new]
+  skip_before_action :authenticate_user!, except:[:show, :new, :news]
 
   def home
     begin
@@ -17,12 +17,11 @@ class SearchesController < ApplicationController
   def new
   end
 
-  # def testing
-  #   render json: 
-  # end
+  def news
+    @tweets = TwitterNews.twitter_search
+  end
 
   def about
-    
   end
 
 
@@ -97,3 +96,5 @@ class SearchesController < ApplicationController
   end
 
 end
+
+  #   render json: 

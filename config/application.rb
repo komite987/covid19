@@ -9,6 +9,7 @@ require 'carrierwave/orm/activerecord'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+
 module TestingApi
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.

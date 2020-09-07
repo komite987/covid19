@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get '/search', to: 'searches#new'
   post '/search', to: 'searches#show'
   get  'about', to: 'searches#about'
+  get  'news', to: 'searches#news'
 
   get '/404', to: "errors#not_found"
   get "/500", to: "errors#internal_error"
