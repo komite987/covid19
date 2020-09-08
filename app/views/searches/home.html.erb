@@ -27,7 +27,7 @@
           <h2 class="blog-slider__code">Top Confirmed</h2>
           <ul class="blog-slider__text">
             <% @top_confirmed.each do |country|  %>
-            <li><%= "#{country["Country"]}: #{fix_number(country["TotalConfirmed"])}" %></li>
+            <li><b><%= "#{country["Country"]}: #{fix_number(country["TotalConfirmed"])}" %></b></li>
             <% end %>
           </ul>
         </div>
@@ -41,7 +41,7 @@
           <h2 class="blog-slider__code">Top Deaths</h2>
           <ul class="blog-slider__text">
             <% @top_death.each do |country|  %>
-            <li><%= "#{country["Country"]}: #{fix_number(country["TotalDeaths"])}" %></li>
+            <li><b><%= "#{country["Country"]}: #{fix_number(country["TotalDeaths"])}" %></b></li>
             <% end %>
           </ul>
         </div>
