@@ -60,7 +60,7 @@ class UsersController < ApplicationController
       redirect_to users_path
     else
       @errors = validation.errors.to_h
-      render 'edit'
+      render 'edit', status: 400
     end
   end
 
