@@ -31,7 +31,7 @@ class SearchesController < ApplicationController
       Rails.logger.error e.detail
       ErrorSerializer.new(e)
       flash.now[:error] = "#{e.detail}"
-      render 'new' , status: e.status and return 
+      render 'new' , status: e.status and return
     elsif unfoundCountry(params['country'].gsub(" ", "-").downcase)
       e = Errors::NotFound.new("Country not found")
       Rails.logger.error e.detail
@@ -51,12 +51,12 @@ class SearchesController < ApplicationController
       Rails.logger.error e.detail
       ErrorSerializer.new(e)
       flash.now[:error] = "#{e.detail}"
-      render 'new' , status: e.status and return 
+      render 'new' , status: e.status and return
     else
       start_date = Date.parse(params['start_date']).yesterday.to_s
-    end 
+    end
 
-    if params['end_date'].blank? 
+    if params['end_date'].blank?
       Rails.logger.warn "End at yesterday if params is blank"
       end_date =  DateTime.yesterday.strftime("%Y-%m-%d")
     elsif !params['end_date'].blank? && !valid_date?(params['end_date'])
@@ -64,17 +64,17 @@ class SearchesController < ApplicationController
       Rails.logger.error e.detail
       ErrorSerializer.new(e)
       flash.now[:error] = "#{e.detail}"
-      render 'new' , status: e.status and return 
+      render 'new' , status: e.status and return
     else
       end_date =  Date.parse(params['end_date']).to_s
     end
 
-    if Date.parse(end_date) < Date.parse(start_date) 
+    if Date.parse(end_date) < Date.parse(start_date)
       e = Errors::BadRequest.new("Start date is newer than end date")
       Rails.logger.error e.detail
       ErrorSerializer.new(e)
       flash.now[:error] = "#{e.detail}"
-      render 'new' , status: e.status and return 
+      render 'new' , status: e.status and return
     else
       begin
         @response = getData(country, start_date, end_date)
@@ -82,7 +82,7 @@ class SearchesController < ApplicationController
         currency_start_date = (Date.parse(start_date).tomorrow).strftime('%Y-%m-%d')
         @symbol = get_symbol(country)
         begin
-          @currencyExchange = JSON.parse RestClient.get "https://api.exchangeratesapi.io/history?start_at=#{currency_start_date}&end_at=#{end_date}&symbols=#{@currency}&base=USD" 
+          @currencyExchange = JSON.parse RestClient.get "https://api.exchangeratesapi.io/history?start_at=#{currency_start_date}&end_at=#{end_date}&symbols=#{@currency}&base=USD"
         rescue Exception => e
           @currency = "No exchange info for this country"
         end
@@ -97,4 +97,4 @@ class SearchesController < ApplicationController
 
 end
 
-  #   render json: 
+  #   render json:
